@@ -120,27 +120,58 @@ export class ArchitectureInferenceAgent {
       
       const architecturePrompt = this.createArchitecturePrompt(state);
       
-      const architectureResponse = await this.llmClient.generateStructuredResponse<{
-        type: 'monolith' | 'microservices' | 'layered' | 'modular' | 'unknown';
-        style: string;
-        layers: string[];
-        patterns: string[];
-        complexity: 'low' | 'medium' | 'high';
-        recommendations: string[];
-        migrationComplexity: 'low' | 'medium' | 'high';
-      }>(
-        architecturePrompt,
-        JSON.stringify({
-          type: 'monolith | microservices | layered | modular | unknown',
-          style: 'string',
-          layers: ['string'],
-          patterns: ['string'],
-          complexity: 'low | medium | high',
-          recommendations: ['string'],
-          migrationComplexity: 'low | medium | high'
-        }),
-        'You are an expert software architect analyzing repository structure to infer architecture patterns and provide modernization recommendations.'
-      );
+      let architectureResponse;
+      
+      // Try full analysis first
+      try {
+        architectureResponse = await this.llmClient.generateStructuredResponse<{
+          type: 'monolith' | 'microservices' | 'layered' | 'modular' | 'unknown';
+          style: string;
+          layers: string[];
+          patterns: string[];
+          complexity: 'low' | 'medium' | 'high';
+          recommendations: string[];
+          migrationComplexity: 'low' | 'medium' | 'high';
+        }>(
+          architecturePrompt,
+          JSON.stringify({
+            type: 'monolith | microservices | layered | modular | unknown',
+            style: 'string',
+            layers: ['string'],
+            patterns: ['string'],
+            complexity: 'low | medium | high',
+            recommendations: ['string'],
+            migrationComplexity: 'low | medium | high'
+          }),
+          'You are an expert software architect analyzing repository structure to infer architecture patterns and provide modernization recommendations.'
+        );
+      } catch (error) {
+        logError('Full architecture analysis failed, trying simplified approach', error as Error);
+        
+        // Fallback to simpler prompt for large projects
+        const simplifiedPrompt = this.createSimplifiedArchitecturePrompt(state);
+        architectureResponse = await this.llmClient.generateStructuredResponse<{
+          type: 'monolith' | 'microservices' | 'layered' | 'modular' | 'unknown';
+          style: string;
+          layers: string[];
+          patterns: string[];
+          complexity: 'low' | 'medium' | 'high';
+          recommendations: string[];
+          migrationComplexity: 'low' | 'medium' | 'high';
+        }>(
+          simplifiedPrompt,
+          JSON.stringify({
+            type: 'monolith | microservices | layered | modular | unknown',
+            style: 'string',
+            layers: ['string'],
+            patterns: ['string'],
+            complexity: 'low | medium | high',
+            recommendations: ['string'],
+            migrationComplexity: 'low | medium | high'
+          }),
+          'You are an expert software architect. Provide a concise architecture analysis.'
+        );
+      }
       
       const architectureInfo: ArchitectureInfo = {
         type: architectureResponse.type,
@@ -544,6 +575,34 @@ Based on this analysis, determine:
 7. Migration complexity assessment
 
 Provide specific, actionable recommendations for legacy modernization.
+    `;
+  }
+
+  private createSimplifiedArchitecturePrompt(state: ArchitectureInferenceState): string {
+    const { repositoryAnalysis } = state;
+    const { repository, summary } = repositoryAnalysis;
+    const { techStack } = state.metadata;
+    
+    return `
+Analyze this repository:
+
+Repository: ${repository.name}
+Language: ${repository.language || 'Unknown'}
+Project Type: ${summary.projectType}
+Complexity: ${summary.complexity}
+
+Tech Stack: ${techStack?.language || 'Unknown'} ${techStack?.frameworks?.join(', ') || ''}
+
+Provide a concise architecture analysis with:
+- Architecture type (monolith/microservices/layered/modular/unknown)
+- Brief architectural style description
+- Main layers/components
+- Key patterns used
+- Overall complexity assessment
+- Top 3 modernization recommendations
+- Migration complexity (low/medium/high)
+
+Keep recommendations brief and actionable.
     `;
   }
 
