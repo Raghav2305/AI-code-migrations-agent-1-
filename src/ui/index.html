@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Legacy Migration Agent Suite</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+            margin-bottom: 40px;
+            border-radius: 12px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .form-section {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        input[type="url"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="url"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .progress-section {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            display: none;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transition: width 0.3s;
+            width: 0%;
+        }
+
+        .progress-text {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .results-section {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            display: none;
+        }
+
+        .results-tabs {
+            display: flex;
+            border-bottom: 2px solid #f0f0f0;
+            margin-bottom: 20px;
+        }
+
+        .tab-button {
+            padding: 12px 20px;
+            border: none;
+            background: none;
+            font-size: 16px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .tab-button.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .result-card {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .result-card h3 {
+            color: #495057;
+            margin-bottom: 15px;
+        }
+
+        .result-value {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .tech-item {
+            background: #667eea;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .json-output {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            white-space: pre-wrap;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .download-btn {
+            background: #28a745;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #f5c6cb;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🤖 AI Legacy Migration Agent Suite</h1>
+            <p>Analyze GitHub repositories and infer architecture patterns for legacy modernization</p>
+        </div>
+
+        <div class="form-section">
+            <h2>Repository Analysis</h2>
+            <form id="analysisForm">
+                <div class="form-group">
+                    <label for="repositoryUrl">GitHub Repository URL</label>
+                    <input 
+                        type="url" 
+                        id="repositoryUrl" 
+                        placeholder="https://github.com/user/repository"
+                        required
+                    >
+                </div>
+                <button type="submit" class="btn" id="analyzeBtn">
+                    Analyze Repository
+                </button>
+            </form>
+        </div>
+
+        <div class="progress-section" id="progressSection">
+            <h2>Analysis Progress</h2>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-text" id="progressText">Initializing...</div>
+        </div>
+
+        <div class="results-section" id="resultsSection">
+            <h2>Analysis Results</h2>
+            <div class="results-tabs">
+                <button class="tab-button active" data-tab="overview">Overview</button>
+                <button class="tab-button" data-tab="architecture">Architecture</button>
+                <button class="tab-button" data-tab="raw">Raw Data</button>
+            </div>
+
+            <div class="tab-content active" id="overview">
+                <div class="result-card">
+                    <h3>Repository Summary</h3>
+                    <div id="repoSummary"></div>
+                </div>
+                <div class="result-card">
+                    <h3>Technology Stack</h3>
+                    <div id="techStack"></div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="architecture">
+                <div class="result-card">
+                    <h3>Architecture Analysis</h3>
+                    <div id="architectureInfo"></div>
+                </div>
+                <div class="result-card">
+                    <h3>Modernization Recommendations</h3>
+                    <div id="recommendations"></div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="raw">
+                <div class="result-card">
+                    <h3>Raw JSON Output</h3>
+                    <div class="json-output" id="jsonOutput"></div>
+                    <button class="download-btn" onclick="downloadResults()">Download JSON</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentAnalysisId = null;
+        let analysisResults = null;
+
+        // Form submission
+        document.getElementById('analysisForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const repositoryUrl = document.getElementById('repositoryUrl').value;
+            const analyzeBtn = document.getElementById('analyzeBtn');
+            const progressSection = document.getElementById('progressSection');
+            const resultsSection = document.getElementById('resultsSection');
+            
+            // Reset UI
+            resultsSection.style.display = 'none';
+            progressSection.style.display = 'block';
+            analyzeBtn.disabled = true;
+            analyzeBtn.innerHTML = '<span class="loading"></span>Starting Analysis...';
+            
+            try {
+                // Start analysis
+                const response = await fetch('http://localhost:3000/api/analyze', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ repositoryUrl })
+                });
+                
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(data.error || 'Analysis failed');
+                }
+                
+                currentAnalysisId = data.analysisId;
+                
+                // Start listening for updates
+                listenForUpdates();
+                
+            } catch (error) {
+                showError(error.message);
+                resetUI();
+            }
+        });
+
+        // Listen for real-time updates
+        function listenForUpdates() {
+            const eventSource = new EventSource(`http://localhost:3000/api/analysis/${currentAnalysisId}/stream`);
+            
+            eventSource.onmessage = (event) => {
+                const data = JSON.parse(event.data);
+                updateProgress(data);
+                
+                if (data.status === 'completed') {
+                    analysisResults = data.result;
+                    displayResults();
+                    eventSource.close();
+                    resetUI();
+                } else if (data.status === 'failed') {
+                    showError(data.error || 'Analysis failed');
+                    eventSource.close();
+                    resetUI();
+                }
+            };
+            
+            eventSource.onerror = (error) => {
+                console.error('EventSource error:', error);
+                showError('Connection error. Please try again.');
+                eventSource.close();
+                resetUI();
+            };
+        }
+
+        // Update progress display
+        function updateProgress(data) {
+            const progressFill = document.getElementById('progressFill');
+            const progressText = document.getElementById('progressText');
+            
+            progressFill.style.width = `${data.progress}%`;
+            progressText.textContent = data.currentStep;
+        }
+
+        // Display analysis results
+        function displayResults() {
+            const resultsSection = document.getElementById('resultsSection');
+            
+            if (analysisResults) {
+                // Repository Summary
+                const repoSummary = document.getElementById('repoSummary');
+                const repo = analysisResults.repositoryAnalysis;
+                repoSummary.innerHTML = `
+                    <p><strong>Repository:</strong> <span class="result-value">${repo.repository.name}</span></p>
+                    <p><strong>Description:</strong> ${repo.repository.description || 'No description'}</p>
+                    <p><strong>Language:</strong> <span class="result-value">${repo.repository.language || 'Unknown'}</span></p>
+                    <p><strong>Stars:</strong> ${repo.repository.stars || 0}</p>
+                    <p><strong>Purpose:</strong> ${repo.summary.purpose}</p>
+                    <p><strong>Project Type:</strong> <span class="result-value">${repo.summary.projectType}</span></p>
+                    <p><strong>Complexity:</strong> <span class="result-value">${repo.summary.complexity}</span></p>
+                `;
+                
+                // Technology Stack
+                const techStack = document.getElementById('techStack');
+                const arch = analysisResults.architectureAnalysis;
+                techStack.innerHTML = `
+                    <p><strong>Language:</strong> <span class="result-value">${arch.architecture.techStack.language}</span></p>
+                    <div class="tech-stack">
+                        ${arch.architecture.techStack.frameworks.map(f => `<span class="tech-item">${f}</span>`).join('')}
+                        ${arch.architecture.techStack.libraries.map(l => `<span class="tech-item">${l}</span>`).join('')}
+                        ${arch.architecture.techStack.tools.map(t => `<span class="tech-item">${t}</span>`).join('')}
+                    </div>
+                `;
+                
+                // Architecture Info
+                const architectureInfo = document.getElementById('architectureInfo');
+                architectureInfo.innerHTML = `
+                    <p><strong>Architecture Type:</strong> <span class="result-value">${arch.architecture.type}</span></p>
+                    <p><strong>Style:</strong> ${arch.architecture.style}</p>
+                    <p><strong>Layers:</strong> ${arch.architecture.layers.join(', ')}</p>
+                    <p><strong>Patterns:</strong> ${arch.architecture.patterns.join(', ')}</p>
+                    <p><strong>Complexity:</strong> <span class="result-value">${arch.architecture.complexity}</span></p>
+                    <p><strong>Migration Complexity:</strong> <span class="result-value">${arch.migrationComplexity}</span></p>
+                `;
+                
+                // Recommendations
+                const recommendations = document.getElementById('recommendations');
+                recommendations.innerHTML = `
+                    <ul>
+                        ${arch.recommendations.map(r => `<li>${r}</li>`).join('')}
+                    </ul>
+                `;
+                
+                // Raw JSON
+                const jsonOutput = document.getElementById('jsonOutput');
+                jsonOutput.textContent = JSON.stringify(analysisResults, null, 2);
+                
+                resultsSection.style.display = 'block';
+            }
+        }
+
+        // Tab switching
+        document.querySelectorAll('.tab-button').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const tab = e.target.dataset.tab;
+                
+                // Update active tab
+                document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                e.target.classList.add('active');
+                document.getElementById(tab).classList.add('active');
+            });
+        });
+
+        // Download results
+        function downloadResults() {
+            if (analysisResults) {
+                const blob = new Blob([JSON.stringify(analysisResults, null, 2)], {
+                    type: 'application/json'
+                });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `analysis-${currentAnalysisId}.json`;
+                a.click();
+                URL.revokeObjectURL(url);
+            }
+        }
+
+        // Error handling
+        function showError(message) {
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'error-message';
+            errorDiv.textContent = message;
+            
+            const container = document.querySelector('.container');
+            container.insertBefore(errorDiv, container.firstChild.nextSibling);
+            
+            setTimeout(() => {
+                errorDiv.remove();
+            }, 5000);
+        }
+
+        // Reset UI
+        function resetUI() {
+            const analyzeBtn = document.getElementById('analyzeBtn');
+            const progressSection = document.getElementById('progressSection');
+            
+            analyzeBtn.disabled = false;
+            analyzeBtn.innerHTML = 'Analyze Repository';
+            progressSection.style.display = 'none';
+        }
+    </script>
+</body>
+</html>
