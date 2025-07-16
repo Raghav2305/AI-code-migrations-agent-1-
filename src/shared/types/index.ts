@@ -95,6 +95,20 @@ export interface ArchitectureAnalysis {
   architecture: ArchitectureInfo;
   recommendations: string[];
   migrationComplexity: 'low' | 'medium' | 'high';
+  fileAnalysis: {
+    totalFiles: number;
+    sourceFiles: number;
+    configFiles: number;
+    testFiles: number;
+    documentationFiles: number;
+    keyFiles: string[];
+  };
+  architectureDetails: {
+    strengths: string[];
+    weaknesses: string[];
+    riskFactors: string[];
+    modernizationPriority: 'low' | 'medium' | 'high';
+  };
   timestamp: string;
 }
 

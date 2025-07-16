@@ -132,6 +132,20 @@ export class ArchitectureInferenceAgent {
           complexity: 'low' | 'medium' | 'high';
           recommendations: string[];
           migrationComplexity: 'low' | 'medium' | 'high';
+          fileAnalysis: {
+            totalFiles: number;
+            sourceFiles: number;
+            configFiles: number;
+            testFiles: number;
+            documentationFiles: number;
+            keyFiles: string[];
+          };
+          architectureDetails: {
+            strengths: string[];
+            weaknesses: string[];
+            riskFactors: string[];
+            modernizationPriority: 'low' | 'medium' | 'high';
+          };
         }>(
           architecturePrompt,
           JSON.stringify({
@@ -141,7 +155,21 @@ export class ArchitectureInferenceAgent {
             patterns: ['string'],
             complexity: 'low | medium | high',
             recommendations: ['string'],
-            migrationComplexity: 'low | medium | high'
+            migrationComplexity: 'low | medium | high',
+            fileAnalysis: {
+              totalFiles: 'number',
+              sourceFiles: 'number',
+              configFiles: 'number',
+              testFiles: 'number',
+              documentationFiles: 'number',
+              keyFiles: ['string']
+            },
+            architectureDetails: {
+              strengths: ['string'],
+              weaknesses: ['string'],
+              riskFactors: ['string'],
+              modernizationPriority: 'low | medium | high'
+            }
           }),
           'You are an expert software architect analyzing repository structure to infer architecture patterns and provide modernization recommendations.'
         );
@@ -158,6 +186,20 @@ export class ArchitectureInferenceAgent {
           complexity: 'low' | 'medium' | 'high';
           recommendations: string[];
           migrationComplexity: 'low' | 'medium' | 'high';
+          fileAnalysis: {
+            totalFiles: number;
+            sourceFiles: number;
+            configFiles: number;
+            testFiles: number;
+            documentationFiles: number;
+            keyFiles: string[];
+          };
+          architectureDetails: {
+            strengths: string[];
+            weaknesses: string[];
+            riskFactors: string[];
+            modernizationPriority: 'low' | 'medium' | 'high';
+          };
         }>(
           simplifiedPrompt,
           JSON.stringify({
@@ -167,7 +209,21 @@ export class ArchitectureInferenceAgent {
             patterns: ['string'],
             complexity: 'low | medium | high',
             recommendations: ['string'],
-            migrationComplexity: 'low | medium | high'
+            migrationComplexity: 'low | medium | high',
+            fileAnalysis: {
+              totalFiles: 'number',
+              sourceFiles: 'number',
+              configFiles: 'number',
+              testFiles: 'number',
+              documentationFiles: 'number',
+              keyFiles: ['string']
+            },
+            architectureDetails: {
+              strengths: ['string'],
+              weaknesses: ['string'],
+              riskFactors: ['string'],
+              modernizationPriority: 'low | medium | high'
+            }
           }),
           'You are an expert software architect. Provide a concise architecture analysis.'
         );
@@ -195,6 +251,20 @@ export class ArchitectureInferenceAgent {
         architecture: architectureInfo,
         recommendations: architectureResponse.recommendations,
         migrationComplexity: architectureResponse.migrationComplexity,
+        fileAnalysis: architectureResponse.fileAnalysis || {
+          totalFiles: state.repositoryAnalysis.fileStructure.totalFiles,
+          sourceFiles: state.repositoryAnalysis.fileStructure.categories.source?.length || 0,
+          configFiles: state.repositoryAnalysis.fileStructure.categories.config?.length || 0,
+          testFiles: state.repositoryAnalysis.fileStructure.categories.test?.length || 0,
+          documentationFiles: state.repositoryAnalysis.fileStructure.categories.documentation?.length || 0,
+          keyFiles: state.repositoryAnalysis.fileStructure.mainFiles?.map(f => f.name) || []
+        },
+        architectureDetails: architectureResponse.architectureDetails || {
+          strengths: [],
+          weaknesses: [],
+          riskFactors: [],
+          modernizationPriority: 'medium'
+        },
         timestamp: new Date().toISOString()
       };
       
@@ -542,67 +612,86 @@ export class ArchitectureInferenceAgent {
     const { detectedPatterns, techStack, components } = state.metadata;
     
     return `
-Analyze the architecture of this repository:
+Analyze the architecture of this repository and provide comprehensive details:
 
+## Repository Overview
 Repository: ${repository.name}
 Description: ${repository.description || 'No description provided'}
 Language: ${repository.language || 'Unknown'}
 Project Type: ${summary.projectType}
 Complexity: ${summary.complexity}
 
-Detected Patterns: ${detectedPatterns?.join(', ') || 'None'}
-
-Tech Stack:
-- Language: ${techStack?.language || 'Unknown'}
-- Frameworks: ${techStack?.frameworks?.join(', ') || 'None'}
-- Tools: ${techStack?.tools?.join(', ') || 'None'}
-
-File Structure:
+## File Analysis
 - Total files: ${fileStructure.totalFiles}
 - Source files: ${fileStructure.categories.source?.length || 0}
 - Config files: ${fileStructure.categories.config?.length || 0}
 - Test files: ${fileStructure.categories.test?.length || 0}
+- Documentation files: ${fileStructure.categories.documentation?.length || 0}
 
-Components: ${components?.length || 0} identified
+## Technical Stack
+- Language: ${techStack?.language || 'Unknown'}
+- Frameworks: ${techStack?.frameworks?.join(', ') || 'None'}
+- Tools: ${techStack?.tools?.join(', ') || 'None'}
 
-Based on this analysis, determine:
-1. Architecture type (monolith, microservices, layered, modular, unknown)
-2. Architectural style description
-3. Application layers present
-4. Design patterns used
-5. Overall complexity assessment
-6. Modernization recommendations
-7. Migration complexity assessment
+## Detected Patterns
+${detectedPatterns?.join(', ') || 'None'}
 
-Provide specific, actionable recommendations for legacy modernization.
+## Components Identified
+${components?.length || 0} components found
+
+## Required Analysis
+Provide a comprehensive architecture analysis with:
+
+1. **Architecture Type**: Determine if this is monolith, microservices, layered, modular, or unknown
+2. **Architectural Style**: Detailed description of the architectural approach and design philosophy
+3. **Application Layers**: List all architectural layers present (e.g., presentation, business, data, etc.)
+4. **Design Patterns**: Identify specific patterns used (MVC, Repository, Factory, etc.)
+5. **Complexity Assessment**: Overall complexity level with justification
+6. **File Analysis**: Provide exact counts and explain significance of file distribution
+7. **Architecture Details**: 
+   - Strengths of current architecture
+   - Weaknesses and technical debt
+   - Risk factors for modernization
+   - Priority level for modernization (low/medium/high)
+8. **Modernization Recommendations**: Specific, actionable steps for legacy modernization
+9. **Migration Complexity**: Assessment of migration difficulty with reasoning
+
+Focus on providing concrete, actionable insights based on the file structure and technology stack.
     `;
   }
 
   private createSimplifiedArchitecturePrompt(state: ArchitectureInferenceState): string {
     const { repositoryAnalysis } = state;
-    const { repository, summary } = repositoryAnalysis;
+    const { repository, fileStructure, summary } = repositoryAnalysis;
     const { techStack } = state.metadata;
     
     return `
-Analyze this repository:
+Analyze this repository concisely:
 
-Repository: ${repository.name}
-Language: ${repository.language || 'Unknown'}
-Project Type: ${summary.projectType}
-Complexity: ${summary.complexity}
+## Repository
+- Name: ${repository.name}
+- Language: ${repository.language || 'Unknown'}
+- Type: ${summary.projectType}
+- Complexity: ${summary.complexity}
 
-Tech Stack: ${techStack?.language || 'Unknown'} ${techStack?.frameworks?.join(', ') || ''}
+## File Breakdown
+- Total: ${fileStructure.totalFiles} files
+- Source: ${fileStructure.categories.source?.length || 0}
+- Config: ${fileStructure.categories.config?.length || 0}
+- Tests: ${fileStructure.categories.test?.length || 0}
 
-Provide a concise architecture analysis with:
-- Architecture type (monolith/microservices/layered/modular/unknown)
-- Brief architectural style description
-- Main layers/components
-- Key patterns used
-- Overall complexity assessment
-- Top 3 modernization recommendations
-- Migration complexity (low/medium/high)
+## Tech Stack
+${techStack?.language || 'Unknown'} ${techStack?.frameworks?.join(', ') || ''}
 
-Keep recommendations brief and actionable.
+Provide structured analysis with:
+- Architecture type and brief style description
+- Main layers and patterns
+- File analysis with counts and key files
+- Architecture strengths, weaknesses, and risk factors
+- Modernization priority and top 3 recommendations
+- Migration complexity assessment
+
+Keep responses concise but comprehensive.
     `;
   }
 
