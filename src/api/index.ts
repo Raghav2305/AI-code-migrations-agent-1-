@@ -5,11 +5,13 @@ import {
   AnalysisRequest, 
   AnalysisResponse, 
   RepositoryAnalysis, 
-  ArchitectureAnalysis 
+  ArchitectureAnalysis,
+  CodeFlowAnalysis 
 } from '../shared/types';
 import { logInfo, logError } from '../shared/utils';
 import GitHubRepoAnalyzerAgent from '../agents/github-analyzer';
 import ArchitectureInferenceAgent from '../agents/architecture-inference';
+import { CodeFlowAgent } from '../agents/code-flow';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -27,6 +29,7 @@ const analysisResults = new Map<string, AnalysisResponse>();
 // Initialize agents
 const githubAnalyzer = new GitHubRepoAnalyzerAgent();
 const architectureInference = new ArchitectureInferenceAgent();
+const codeFlowAgent = new CodeFlowAgent();
 
 // Generate unique analysis ID
 function generateAnalysisId(): string {
@@ -184,16 +187,28 @@ async function performAnalysis(analysisId: string, request: AnalysisRequest) {
     
     const architectureAnalysis: ArchitectureAnalysis = await architectureInference.analyze(repositoryAnalysis);
     
+    result.progress = 70;
+    result.currentStep = 'Architecture inference completed';
+    result.result!.architectureAnalysis = architectureAnalysis;
+    
+    // Step 3: Code Flow Analysis
+    logInfo('Running code flow analysis', { analysisId });
+    result.currentStep = 'Analyzing code flow and dependencies';
+    result.progress = 80;
+    
+    const codeFlowAnalysis: CodeFlowAnalysis = await codeFlowAgent.analyze(repositoryAnalysis, architectureAnalysis);
+    
     result.progress = 100;
     result.currentStep = 'Analysis completed';
-    result.result!.architectureAnalysis = architectureAnalysis;
+    result.result!.codeFlowAnalysis = codeFlowAnalysis;
     result.status = 'completed';
     result.completedAt = new Date().toISOString();
     
     logInfo('Analysis completed successfully', { 
       analysisId, 
       repository: repositoryAnalysis.repository.name,
-      architecture: architectureAnalysis.architecture.type 
+      architecture: architectureAnalysis.architecture.type,
+      codeFlowComplexity: codeFlowAnalysis.complexity
     });
     
   } catch (error) {
