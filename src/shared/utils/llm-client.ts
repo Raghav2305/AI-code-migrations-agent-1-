@@ -23,12 +23,12 @@ export class LLMClient {
   private initializeClients() {
     try {
       // Initialize Gemini client
-      if (process.env.GOOGLE_API_KEY) {
+      if (process.env.GEMINI_KEY_AI_HACKATHON) {
         this.geminiClient = new ChatGoogleGenerativeAI({
           model: this.config.model || 'gemini-2.5-flash',
           temperature: this.config.temperature || 0.7,
           maxOutputTokens: this.config.maxTokens || 8192, // Increased for better JSON completion
-          apiKey: process.env.GOOGLE_API_KEY,
+          apiKey: process.env.GEMINI_KEY_AI_HACKATHON,
         });
         logInfo('Gemini client initialized successfully');
       }

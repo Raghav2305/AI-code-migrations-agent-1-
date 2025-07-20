@@ -1,20 +1,43 @@
 const dotenv = require('dotenv');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
+const path = require('path');
+const fs = require('fs');
 
-// Load environment variables
-dotenv.config();
+// Load environment variables with explicit path
+const envPath = path.join(__dirname, '.env');
+console.log('Looking for .env file at:', envPath);
+console.log('.env file exists:', fs.existsSync(envPath));
 
-console.log('Testing Gemini API Key...');
-console.log('API Key loaded:', process.env.GOOGLE_API_KEY ? 'Yes' : 'No');
-console.log('API Key length:', process.env.GOOGLE_API_KEY?.length || 0);
-console.log('API Key starts with:', process.env.GOOGLE_API_KEY?.substring(0, 10) || 'N/A');
+if (fs.existsSync(envPath)) {
+  const envContent = fs.readFileSync(envPath, 'utf8');
+  console.log('.env file content preview:');
+  console.log(envContent.substring(0, 200) + '...');
+}
+
+dotenv.config({ path: envPath });
+
+console.log('\n=== Environment Variables Debug ===');
+console.log('GEMINI_KEY_AI_HACKATHON from env:', process.env.GEMINI_KEY_AI_HACKATHON ? 'Found' : 'Not found');
+console.log('GEMINI_KEY_AI_HACKATHON length:', process.env.GEMINI_KEY_AI_HACKATHON?.length || 0);
+console.log('GEMINI_KEY_AI_HACKATHON preview:', process.env.GEMINI_KEY_AI_HACKATHON?.substring(0, 15) + '...' || 'N/A');
+
+// Use the unique environment variable name
+const apiKey = process.env.GEMINI_KEY_AI_HACKATHON;
+console.log('Final API key to use:', apiKey ? 'Found (' + apiKey.length + ' chars)' : 'None');
+console.log('=== End Debug ===\n');
 
 async function testAPIKey() {
   try {
-    const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
-    const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
+    if (!apiKey) {
+      console.log('❌ No API key found in environment variables');
+      return;
+    }
     
-    const result = await model.generateContent('Hello, world!');
+    console.log('Testing with API key:', apiKey.substring(0, 15) + '...');
+    const genAI = new GoogleGenerativeAI(apiKey);
+    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+    
+    const result = await model.generateContent('Hello, respond with just "API key working!"');
     const response = await result.response;
     const text = response.text();
     
