@@ -7,13 +7,28 @@ import {
   ComponentInfo,
   EntryPoint,
   TechStack,
-  FileInfo
+  FileInfo,
+  FileCategory
 } from '../../shared/types';
 import { 
   LLMClient, 
   logInfo, 
   logError 
 } from '../../shared/utils';
+import { 
+  logStep,
+  logProgress,
+  logSuccess,
+  logAnalysisError,
+  logAICall,
+  logArchitectureDetection
+} from '../../shared/utils/simple-enhanced-logger';
+import { 
+  logAgent2Input,
+  logAgent2Output,
+  logAgent2Error,
+  agentIOLogger
+} from '../../shared/utils/agent-io-logger';
 
 export interface ArchitectureInferenceState {
   repositoryAnalysis: RepositoryAnalysis;
@@ -33,10 +48,15 @@ export class ArchitectureInferenceAgent {
 
   private async detectArchitecturePatterns(state: ArchitectureInferenceState): Promise<ArchitectureInferenceState> {
     try {
-      logInfo('Detecting architecture patterns');
+      logInfo('Detecting architecture patterns using AI');
       
       const { fileStructure } = state.repositoryAnalysis;
-      const patterns = this.analyzeStructuralPatterns(fileStructure);
+      
+      // Create comprehensive file structure JSON for AI analysis
+      const fileStructureJson = this.createFileStructureJson(fileStructure);
+      
+      // Use AI to detect patterns from file structure
+      const patterns = await this.detectPatternsWithAI(fileStructureJson, state.repositoryAnalysis);
       
       return {
         ...state,
@@ -44,16 +64,25 @@ export class ArchitectureInferenceAgent {
         progress: 25,
         metadata: {
           ...state.metadata,
-          detectedPatterns: patterns
+          detectedPatterns: patterns,
+          fileStructureJson // Keep for debugging
         }
       };
     } catch (error) {
-      logError('Failed to detect architecture patterns', error as Error);
+      logError('Failed to detect architecture patterns with AI, falling back to rule-based', error as Error);
+      
+      // Fallback to rule-based detection if AI fails
+      const fallbackPatterns = this.analyzeStructuralPatterns(state.repositoryAnalysis.fileStructure);
+      
       return {
         ...state,
-        errors: [...state.errors, `Failed to detect patterns: ${(error as Error).message}`],
         currentStep: 'detect_patterns',
-        progress: 0
+        progress: 25,
+        metadata: {
+          ...state.metadata,
+          detectedPatterns: fallbackPatterns,
+          patternDetectionMethod: 'fallback_rules'
+        }
       };
     }
   }
@@ -283,6 +312,261 @@ export class ArchitectureInferenceAgent {
         progress: 75
       };
     }
+  }
+
+  private createFileStructureJson(fileStructure: FileStructure): any {
+    try {
+      // Create a hierarchical directory structure
+      const directoryTree: any = {};
+      
+      fileStructure.files.forEach(file => {
+        const pathParts = file.path.split('/');
+        let current = directoryTree;
+        
+        // Build nested directory structure
+        for (let i = 0; i < pathParts.length - 1; i++) {
+          const part = pathParts[i];
+          if (!current[part]) {
+            current[part] = {
+              type: 'directory',
+              children: {},
+              files: []
+            };
+          }
+          current = current[part].children;
+        }
+        
+        // Add file to the final directory
+        const fileName = pathParts[pathParts.length - 1];
+        if (!current.files) current.files = [];
+        current.files.push({
+          name: fileName,
+          path: file.path,
+          type: file.type,
+          extension: file.extension,
+          size: file.size,
+          hasContent: !!file.content
+        });
+      });
+      
+      // Create flat structure for AI analysis
+      const filesByDirectory = new Map<string, any[]>();
+      
+      fileStructure.files.forEach(file => {
+        const directory = file.path.includes('/') 
+          ? file.path.substring(0, file.path.lastIndexOf('/'))
+          : 'root';
+          
+        if (!filesByDirectory.has(directory)) {
+          filesByDirectory.set(directory, []);
+        }
+        
+        filesByDirectory.get(directory)!.push({
+          name: file.name,
+          path: file.path,
+          extension: file.extension,
+          type: file.type,
+          size: file.size,
+          category: file.category,
+          hasContent: !!file.content
+        });
+      });
+      
+      // Convert to JSON structure optimized for AI analysis
+      const structureForAI = {
+        summary: {
+          totalFiles: fileStructure.totalFiles,
+          totalDirectories: fileStructure.totalDirectories,
+          fileCategories: (Object.keys(fileStructure.categories) as FileCategory[]).map(category => ({
+            category,
+            count: fileStructure.categories[category]?.length || 0,
+            files: fileStructure.categories[category]?.slice(0, 10).map((f: FileInfo) => f.name) || []
+          })),
+          mainFiles: fileStructure.mainFiles.map(f => ({
+            name: f.name,
+            path: f.path,
+            purpose: this.inferFilePurpose(f.name, f.path)
+          }))
+        },
+        directoryStructure: Array.from(filesByDirectory.entries()).map(([dir, files]) => ({
+          directory: dir,
+          fileCount: files.length,
+          files: files.slice(0, 15), // Limit to prevent large payloads
+          fileTypes: [...new Set(files.map(f => f.extension).filter(Boolean))],
+          hasSubdirectories: files.some(f => f.path.split('/').length > (dir === 'root' ? 1 : dir.split('/').length + 1)),
+          purpose: this.inferDirectoryPurpose(dir, files)
+        })).filter(d => d.fileCount > 0),
+        architecturalIndicators: {
+          hasConfigFiles: fileStructure.files.some(f => f.category === 'config'),
+          hasTestFiles: fileStructure.files.some(f => f.category === 'test'),
+          hasBuildFiles: fileStructure.files.some(f => f.category === 'build'),
+          hasDockerFiles: fileStructure.files.some(f => f.name.toLowerCase().includes('docker')),
+          hasServiceFiles: fileStructure.files.some(f => f.path.toLowerCase().includes('service')),
+          hasControllerFiles: fileStructure.files.some(f => f.path.toLowerCase().includes('controller')),
+          hasModelFiles: fileStructure.files.some(f => f.path.toLowerCase().includes('model')),
+          hasViewFiles: fileStructure.files.some(f => f.path.toLowerCase().includes('view') || f.path.toLowerCase().includes('template')),
+          hasComponentFiles: fileStructure.files.some(f => f.path.toLowerCase().includes('component')),
+          hasModuleFiles: fileStructure.files.some(f => f.path.toLowerCase().includes('module')),
+          hasApiFiles: fileStructure.files.some(f => f.path.toLowerCase().includes('api') || f.path.toLowerCase().includes('route')),
+          hasMiddlewareFiles: fileStructure.files.some(f => f.path.toLowerCase().includes('middleware')),
+          maxDirectoryDepth: Math.max(...fileStructure.files.map(f => f.path.split('/').length))
+        }
+      };
+      
+      return structureForAI;
+    } catch (error) {
+      logError('Failed to create file structure JSON', error as Error);
+      return { error: 'Failed to parse file structure' };
+    }
+  }
+  
+  private inferFilePurpose(fileName: string, filePath: string): string {
+    const lower = fileName.toLowerCase();
+    const path = filePath.toLowerCase();
+    
+    if (lower.includes('index')) return 'entry_point';
+    if (lower.includes('main')) return 'main_entry';
+    if (lower.includes('app')) return 'application_root';
+    if (lower.includes('server')) return 'server_entry';
+    if (lower.includes('config')) return 'configuration';
+    if (lower.includes('package.json')) return 'dependency_manifest';
+    if (lower.includes('readme')) return 'documentation';
+    if (lower.includes('dockerfile')) return 'containerization';
+    if (path.includes('test')) return 'testing';
+    if (path.includes('spec')) return 'specification';
+    
+    return 'source_code';
+  }
+  
+  private inferDirectoryPurpose(directory: string, files: any[]): string {
+    const lower = directory.toLowerCase();
+    const fileNames = files.map(f => f.name.toLowerCase()).join(' ');
+    
+    if (lower.includes('controller')) return 'mvc_controllers';
+    if (lower.includes('model')) return 'data_models';
+    if (lower.includes('view') || lower.includes('template')) return 'presentation_views';
+    if (lower.includes('service')) return 'business_services';
+    if (lower.includes('repository') || lower.includes('dao')) return 'data_access';
+    if (lower.includes('component')) return 'ui_components';
+    if (lower.includes('module')) return 'feature_modules';
+    if (lower.includes('api') || lower.includes('route')) return 'api_endpoints';
+    if (lower.includes('middleware')) return 'request_middleware';
+    if (lower.includes('util') || lower.includes('helper')) return 'utilities';
+    if (lower.includes('config')) return 'configuration';
+    if (lower.includes('test') || lower.includes('spec')) return 'testing';
+    if (lower.includes('doc')) return 'documentation';
+    if (lower.includes('asset') || lower.includes('static')) return 'static_assets';
+    if (lower.includes('public')) return 'public_resources';
+    if (lower.includes('src') || lower.includes('source')) return 'source_code';
+    if (lower.includes('lib') || lower.includes('vendor')) return 'external_libraries';
+    
+    // Infer from file types
+    if (fileNames.includes('controller')) return 'mvc_controllers';
+    if (fileNames.includes('service')) return 'business_services';
+    if (fileNames.includes('model')) return 'data_models';
+    if (files.some(f => f.extension === 'test.js' || f.extension === 'spec.js')) return 'testing';
+    
+    return 'source_code';
+  }
+  
+  private async detectPatternsWithAI(fileStructureJson: any, repositoryAnalysis: any): Promise<string[]> {
+    try {
+      const prompt = this.createPatternDetectionPrompt(fileStructureJson, repositoryAnalysis);
+      
+      const response = await this.llmClient.generateStructuredResponse<{
+        detectedPatterns: {
+          pattern: string;
+          confidence: 'high' | 'medium' | 'low';
+          evidence: string[];
+          description: string;
+        }[];
+        primaryArchitecture: string;
+        architecturalStyle: string;
+        reasoning: string;
+      }>(
+        prompt,
+        JSON.stringify({
+          detectedPatterns: [{
+            pattern: 'string',
+            confidence: 'high | medium | low',
+            evidence: ['string'],
+            description: 'string'
+          }],
+          primaryArchitecture: 'string',
+          architecturalStyle: 'string',
+          reasoning: 'string'
+        }),
+        'You are an expert software architect analyzing repository structure to identify architectural patterns. Focus on file organization, naming conventions, and directory structures to detect common architectural patterns.'
+      );
+      
+      // Extract pattern names for compatibility with existing code
+      const patterns = response.detectedPatterns
+        .filter(p => p.confidence === 'high' || p.confidence === 'medium')
+        .map(p => p.pattern);
+      
+      logInfo('AI detected architectural patterns', { 
+        patterns,
+        primaryArchitecture: response.primaryArchitecture,
+        reasoning: response.reasoning.substring(0, 200)
+      });
+      
+      return patterns;
+      
+    } catch (error) {
+      logError('AI pattern detection failed', error as Error);
+      throw error;
+    }
+  }
+  
+  private createPatternDetectionPrompt(fileStructureJson: any, repositoryAnalysis: any): string {
+    return `
+Analyze this repository's file structure to identify architectural patterns:
+
+## Repository Context
+- Name: ${repositoryAnalysis.repository.name}
+- Language: ${repositoryAnalysis.repository.language}
+- Description: ${repositoryAnalysis.repository.description || 'No description'}
+- Project Type: ${repositoryAnalysis.summary.projectType}
+
+## File Structure Analysis
+${JSON.stringify(fileStructureJson, null, 2)}
+
+## Your Task
+Examine the directory structure, file organization, and naming patterns to identify architectural patterns. Consider:
+
+### Common Architectural Patterns to Look For:
+1. **MVC (Model-View-Controller)**: Look for separate directories/files for models, views, and controllers
+2. **Layered Architecture**: Look for layers like presentation, business, data, service layers
+3. **Microservices**: Look for service-oriented directory structure, Docker files, independent services
+4. **Component-Based**: Look for component directories, modular file organization
+5. **Domain-Driven Design**: Look for domain-specific directories, aggregates, entities
+6. **Hexagonal/Clean Architecture**: Look for adapters, ports, core business logic separation
+7. **Event-Driven**: Look for event handlers, publishers, subscribers, message queues
+8. **Plugin-Based**: Look for plugin directories, extension points, modular architecture
+9. **Monolithic**: Look for single deployable unit with shared dependencies
+10. **Modular Monolith**: Look for feature-based modules within single deployment
+
+### Analysis Criteria:
+- **Directory naming conventions** (controllers/, models/, services/, components/)
+- **File naming patterns** (*.controller.js, *.service.ts, *.component.tsx)
+- **Separation of concerns** evident in file organization
+- **Dependency patterns** based on file locations
+- **Configuration files** that indicate architectural choices
+- **Build and deployment structure** (Docker, microservice configs)
+
+For each detected pattern, provide:
+- **Pattern name** (use standard architectural pattern names)
+- **Confidence level** (high/medium/low based on evidence strength)
+- **Evidence** (specific directories, files, or naming patterns that support this)
+- **Description** (how this pattern manifests in the codebase)
+
+Also determine:
+- **Primary architecture** (the main architectural approach)
+- **Architectural style** (overall design philosophy)
+- **Reasoning** (why you classified it this way)
+
+Focus on what the file structure actually shows, not what you might expect based on technology stack.
+`;
   }
 
   private analyzeStructuralPatterns(fileStructure: FileStructure): string[] {
@@ -696,6 +980,11 @@ Keep responses concise but comprehensive.
   }
 
   async analyze(repositoryAnalysis: RepositoryAnalysis): Promise<ArchitectureAnalysis> {
+    const startTime = Date.now();
+    
+    // Log exact input to Agent 2
+    const inputId = await logAgent2Input(repositoryAnalysis);
+    
     try {
       let state: ArchitectureInferenceState = {
         repositoryAnalysis,
@@ -730,8 +1019,23 @@ Keep responses concise but comprehensive.
         throw new Error('Architecture analysis not completed');
       }
       
+      // Calculate execution time
+      const executionTime = (Date.now() - startTime) / 1000;
+      
+      // Log exact output from Agent 2
+      await logAgent2Output(state.architectureAnalysis, inputId, executionTime);
+      
+      // Log comparison between input and output
+      await agentIOLogger.logComparison('Architecture Inference Agent', 'analyze', repositoryAnalysis, state.architectureAnalysis);
+      
       return state.architectureAnalysis;
     } catch (error) {
+      // Calculate execution time for error
+      const executionTime = (Date.now() - startTime) / 1000;
+      
+      // Log error with input context
+      await logAgent2Error(error as Error, inputId, executionTime);
+      
       logError('Architecture inference failed', error as Error);
       throw error;
     }

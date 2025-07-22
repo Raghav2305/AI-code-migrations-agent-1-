@@ -897,6 +897,299 @@
             margin-right: 8px;
         }
 
+        /* Risk Assessment Styles */
+        .risk-section {
+            background: #161b22;
+            border: 1px solid #21262d;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .risk-header {
+            color: #f0f6fc;
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #21262d;
+        }
+
+        .risk-content {
+            color: #e6edf3;
+        }
+
+        .risk-score-high {
+            color: #f85149 !important;
+        }
+
+        .risk-score-medium {
+            color: #d29922 !important;
+        }
+
+        .risk-score-low {
+            color: #3fb950 !important;
+        }
+
+        .priority-actions {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .priority-action {
+            background: #161b22;
+            border-left: 4px solid #30363d;
+            padding: 12px 16px;
+            margin-bottom: 8px;
+            border-radius: 0 4px 4px 0;
+            font-size: 14px;
+        }
+
+        .priority-action.urgent {
+            border-left-color: #f85149;
+            background: rgba(248, 81, 73, 0.1);
+        }
+
+        .priority-action.blocker {
+            border-left-color: #d29922;
+            background: rgba(210, 153, 34, 0.1);
+        }
+
+        .priority-action.normal {
+            border-left-color: #58a6ff;
+            background: rgba(88, 166, 255, 0.1);
+        }
+
+        .risk-category {
+            background: #0d1117;
+            border: 1px solid #21262d;
+            border-radius: 6px;
+            margin-bottom: 16px;
+            overflow: hidden;
+        }
+
+        .category-header {
+            padding: 12px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .category-header.high_risk {
+            background: rgba(248, 81, 73, 0.15);
+            border-bottom: 1px solid #f85149;
+        }
+
+        .category-header.medium_risk {
+            background: rgba(210, 153, 34, 0.15);
+            border-bottom: 1px solid #d29922;
+        }
+
+        .category-header.low_risk {
+            background: rgba(63, 185, 80, 0.15);
+            border-bottom: 1px solid #3fb950;
+        }
+
+        .category-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .category-badge.high_risk {
+            background: #f85149;
+            color: #ffffff;
+        }
+
+        .category-badge.medium_risk {
+            background: #d29922;
+            color: #ffffff;
+        }
+
+        .category-badge.low_risk {
+            background: #3fb950;
+            color: #ffffff;
+        }
+
+        .category-count {
+            color: #8b949e;
+            font-size: 12px;
+        }
+
+        .risk-items {
+            padding: 0;
+        }
+
+        .risk-item {
+            border-bottom: 1px solid #21262d;
+            padding: 16px;
+        }
+
+        .risk-item:last-child {
+            border-bottom: none;
+        }
+
+        .risk-item-header {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .risk-type {
+            background: #21262d;
+            color: #58a6ff;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .risk-title {
+            font-weight: 600;
+            color: #f0f6fc;
+        }
+
+        .risk-item-content {
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .risk-item-content p {
+            margin: 4px 0;
+        }
+
+        .risk-metadata {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .effort-badge, .migration-impact-badge {
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .effort-low { background: #3fb950; color: #ffffff; }
+        .effort-medium { background: #d29922; color: #ffffff; }
+        .effort-high { background: #f85149; color: #ffffff; }
+
+        .impact-none { background: #8b949e; color: #ffffff; }
+        .impact-minor { background: #58a6ff; color: #ffffff; }
+        .impact-significant { background: #d29922; color: #ffffff; }
+        .impact-blocker { background: #f85149; color: #ffffff; }
+
+        .vulnerabilities-list, .blockers-list {
+            space-y: 16px;
+        }
+
+        .vulnerability-item, .blocker-item {
+            background: #0d1117;
+            border: 1px solid #21262d;
+            border-radius: 6px;
+            margin-bottom: 16px;
+            overflow: hidden;
+        }
+
+        .vulnerability-header, .blocker-header {
+            padding: 12px 16px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            border-bottom: 1px solid #21262d;
+        }
+
+        .severity-badge, .blocker-severity {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .severity-low { background: #3fb950; color: #ffffff; }
+        .severity-medium { background: #d29922; color: #ffffff; }
+        .severity-high { background: #f85149; color: #ffffff; }
+        .severity-critical { background: #da3633; color: #ffffff; }
+        .severity-blocker { background: #8250df; color: #ffffff; }
+        .severity-major { background: #f85149; color: #ffffff; }
+        .severity-minor { background: #58a6ff; color: #ffffff; }
+
+        .vulnerability-title, .blocker-title {
+            font-weight: 600;
+            color: #f0f6fc;
+            flex-grow: 1;
+        }
+
+        .cve-id {
+            background: #21262d;
+            color: #8b949e;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+        }
+
+        .blocker-type {
+            background: #21262d;
+            color: #8b949e;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 11px;
+        }
+
+        .vulnerability-content, .blocker-content {
+            padding: 16px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .vulnerability-content p, .blocker-content p {
+            margin: 4px 0;
+        }
+
+        .vulnerability-status {
+            margin-top: 8px;
+        }
+
+        .patch-status {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .patch-status.available {
+            background: rgba(63, 185, 80, 0.15);
+            color: #3fb950;
+        }
+
+        .patch-status.unavailable {
+            background: rgba(248, 81, 73, 0.15);
+            color: #f85149;
+        }
+
+        .resolution-info {
+            background: #161b22;
+            border: 1px solid #21262d;
+            border-radius: 4px;
+            padding: 12px;
+            margin-top: 8px;
+        }
+
+        .resolution-steps ul, .alternatives ul {
+            margin: 8px 0;
+            padding-left: 20px;
+        }
+
+        .resolution-steps li, .alternatives li {
+            margin: 4px 0;
+            color: #e6edf3;
+        }
+
         @media (max-width: 768px) {
             .container {
                 padding: 15px;
@@ -956,6 +1249,7 @@
                 <button class="tab-button" data-tab="metrics">📈 Metrics</button>
                 <button class="tab-button" data-tab="architecture">🏗️ Architecture</button>
                 <button class="tab-button" data-tab="codeflow">🔀 Code Flow</button>
+                <button class="tab-button" data-tab="riskassessment">🚨 Risk Assessment</button>
                 <button class="tab-button" data-tab="recommendations">💡 Recommendations</button>
                 <button class="tab-button" data-tab="raw">📋 Raw Data</button>
             </div>
@@ -1005,6 +1299,31 @@
                 
                 <div class="nested-tab-content" id="flow-dataflow">
                     <div id="codeFlowDataFlow"></div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="riskassessment">
+                <div class="nested-tabs">
+                    <button class="nested-tab-button active" data-nested-tab="risk-overview">🚨 Overview</button>
+                    <button class="nested-tab-button" data-nested-tab="risk-categories">📊 Risk Categories</button>
+                    <button class="nested-tab-button" data-nested-tab="risk-vulnerabilities">🔒 Vulnerabilities</button>
+                    <button class="nested-tab-button" data-nested-tab="risk-blockers">🚧 Migration Blockers</button>
+                </div>
+                
+                <div class="nested-tab-content active" id="risk-overview">
+                    <div id="riskOverview"></div>
+                </div>
+                
+                <div class="nested-tab-content" id="risk-categories">
+                    <div id="riskCategories"></div>
+                </div>
+                
+                <div class="nested-tab-content" id="risk-vulnerabilities">
+                    <div id="riskVulnerabilities"></div>
+                </div>
+                
+                <div class="nested-tab-content" id="risk-blockers">
+                    <div id="riskBlockers"></div>
                 </div>
             </div>
 
@@ -1100,7 +1419,15 @@
             
             eventSource.onerror = (error) => {
                 console.error('EventSource error:', error);
-                showError('Connection error. Please try again.');
+                
+                // Check if this is a connection reset (server restart)
+                if (error.type === 'error' && eventSource.readyState === EventSource.CLOSED) {
+                    console.log('Server appears to have restarted, attempting to reconnect...');
+                    showError('Server restarted. Please refresh the page and try again.');
+                } else {
+                    showError('Connection error. Please try again.');
+                }
+                
                 eventSource.close();
                 resetUI();
             };
@@ -1126,6 +1453,7 @@
                     displayMetrics();
                     displayArchitecture();
                     displayCodeFlow();
+                    displayRiskAssessment();
                     displayRecommendations();
                     displayRawData();
                     
@@ -1555,6 +1883,193 @@
                                 </div>
                             </div>
                         ` : ''}
+                    </div>
+                </div>
+            `;
+        }
+
+        function displayRiskAssessment() {
+            console.log('displayRiskAssessment called', analysisResults);
+            const riskAssessment = analysisResults.riskAssessment;
+            
+            if (!riskAssessment) {
+                console.log('No risk assessment data available');
+                document.getElementById('riskOverview').innerHTML = `
+                    <div class="risk-section">
+                        <div class="risk-header">Risk Assessment</div>
+                        <div class="risk-content">
+                            <p style="color: #8b949e; font-style: italic;">Risk assessment not available</p>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+            
+            console.log('Risk assessment data:', riskAssessment);
+            
+            // Overview Tab
+            document.getElementById('riskOverview').innerHTML = `
+                <div class="risk-section">
+                    <div class="risk-header">🚨 Risk Assessment Overview</div>
+                    <div class="risk-content">
+                        <div class="flow-stats">
+                            <div class="stat-box">
+                                <div class="stat-value risk-score-${riskAssessment.overallRiskScore >= 80 ? 'high' : riskAssessment.overallRiskScore >= 50 ? 'medium' : 'low'}">
+                                    ${riskAssessment.overallRiskScore}
+                                </div>
+                                <div class="stat-label">Overall Risk Score</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-value">${riskAssessment.riskCategories.high_risk.length}</div>
+                                <div class="stat-label">High Risk Items</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-value">${riskAssessment.vulnerabilities.length}</div>
+                                <div class="stat-label">Security Vulnerabilities</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-value">${riskAssessment.migrationBlockers.length}</div>
+                                <div class="stat-label">Migration Blockers</div>
+                            </div>
+                        </div>
+                        
+                        <div class="risk-section" style="margin-top: 16px;">
+                            <div class="risk-header">🎯 Priority Actions</div>
+                            <div class="risk-content">
+                                ${riskAssessment.priorityActions.length > 0 ? `
+                                    <ul class="priority-actions">
+                                        ${riskAssessment.priorityActions.map(action => `
+                                            <li class="priority-action ${action.startsWith('URGENT') ? 'urgent' : action.startsWith('BLOCKER') ? 'blocker' : 'normal'}">
+                                                ${action}
+                                            </li>
+                                        `).join('')}
+                                    </ul>
+                                ` : '<p style="color: #8b949e; font-style: italic;">No priority actions identified</p>'}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Risk Categories Tab
+            document.getElementById('riskCategories').innerHTML = `
+                <div class="risk-section">
+                    <div class="risk-header">📊 Risk Categories</div>
+                    <div class="risk-content">
+                        ${['high_risk', 'medium_risk', 'low_risk'].map(category => {
+                            const risks = riskAssessment.riskCategories[category] || [];
+                            const displayCategory = category.replace('_', ' ').toUpperCase();
+                            return `
+                                <div class="risk-category">
+                                    <div class="category-header ${category}">
+                                        <span class="category-badge ${category}">${displayCategory}</span>
+                                        <span class="category-count">${risks.length} items</span>
+                                    </div>
+                                    ${risks.length > 0 ? `
+                                        <div class="risk-items">
+                                            ${risks.map(risk => `
+                                                <div class="risk-item">
+                                                    <div class="risk-item-header">
+                                                        <span class="risk-type">${risk.type}</span>
+                                                        <span class="risk-title">${risk.title}</span>
+                                                    </div>
+                                                    <div class="risk-item-content">
+                                                        <p><strong>Location:</strong> ${risk.location}</p>
+                                                        <p><strong>Description:</strong> ${risk.description}</p>
+                                                        <p><strong>Impact:</strong> ${risk.impact}</p>
+                                                        <p><strong>Recommendation:</strong> ${risk.recommendation}</p>
+                                                        <div class="risk-metadata">
+                                                            <span class="effort-badge effort-${risk.effort}">Effort: ${risk.effort}</span>
+                                                            <span class="migration-impact-badge impact-${risk.migrationImpact}">Impact: ${risk.migrationImpact}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            `).join('')}
+                                        </div>
+                                    ` : '<p style="color: #8b949e; font-style: italic; padding: 12px;">No risks in this category</p>'}
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                </div>
+            `;
+
+            // Vulnerabilities Tab
+            document.getElementById('riskVulnerabilities').innerHTML = `
+                <div class="risk-section">
+                    <div class="risk-header">🔒 Security Vulnerabilities</div>
+                    <div class="risk-content">
+                        ${riskAssessment.vulnerabilities.length > 0 ? `
+                            <div class="vulnerabilities-list">
+                                ${riskAssessment.vulnerabilities.map(vuln => `
+                                    <div class="vulnerability-item severity-${vuln.severity}">
+                                        <div class="vulnerability-header">
+                                            <span class="severity-badge severity-${vuln.severity}">${vuln.severity.toUpperCase()}</span>
+                                            <span class="vulnerability-title">${vuln.title}</span>
+                                            ${vuln.cveId ? `<span class="cve-id">CVE: ${vuln.cveId}</span>` : ''}
+                                        </div>
+                                        <div class="vulnerability-content">
+                                            <p><strong>Type:</strong> ${vuln.type}</p>
+                                            <p><strong>Location:</strong> ${vuln.location}</p>
+                                            <p><strong>Description:</strong> ${vuln.description}</p>
+                                            <p><strong>Recommendation:</strong> ${vuln.recommendation}</p>
+                                            ${vuln.fixVersion ? `<p><strong>Fix Available:</strong> Update to ${vuln.fixVersion}</p>` : ''}
+                                            <div class="vulnerability-status">
+                                                <span class="patch-status ${vuln.patchAvailable ? 'available' : 'unavailable'}">
+                                                    ${vuln.patchAvailable ? '✅ Patch Available' : '❌ No Patch Available'}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        ` : '<p style="color: #8b949e; font-style: italic;">No security vulnerabilities identified</p>'}
+                    </div>
+                </div>
+            `;
+
+            // Migration Blockers Tab
+            document.getElementById('riskBlockers').innerHTML = `
+                <div class="risk-section">
+                    <div class="risk-header">🚧 Migration Blockers</div>
+                    <div class="risk-content">
+                        ${riskAssessment.migrationBlockers.length > 0 ? `
+                            <div class="blockers-list">
+                                ${riskAssessment.migrationBlockers.map(blocker => `
+                                    <div class="blocker-item severity-${blocker.severity}">
+                                        <div class="blocker-header">
+                                            <span class="blocker-severity severity-${blocker.severity}">${blocker.severity.toUpperCase()}</span>
+                                            <span class="blocker-title">${blocker.title}</span>
+                                            <span class="blocker-type">${blocker.type}</span>
+                                        </div>
+                                        <div class="blocker-content">
+                                            <p><strong>Location:</strong> ${blocker.location}</p>
+                                            <p><strong>Description:</strong> ${blocker.description}</p>
+                                            <p><strong>Impact:</strong> ${blocker.impact}</p>
+                                            <div class="resolution-info">
+                                                <p><strong>Resolution:</strong></p>
+                                                <p><strong>Effort:</strong> <span class="effort-badge effort-${blocker.resolution.effort}">${blocker.resolution.effort}</span></p>
+                                                <p><strong>Time Estimate:</strong> ${blocker.resolution.timeEstimate}</p>
+                                                <div class="resolution-steps">
+                                                    <p><strong>Steps:</strong></p>
+                                                    <ul>
+                                                        ${blocker.resolution.steps.map(step => `<li>${step}</li>`).join('')}
+                                                    </ul>
+                                                </div>
+                                                ${blocker.resolution.alternatives.length > 0 ? `
+                                                    <div class="alternatives">
+                                                        <p><strong>Alternatives:</strong></p>
+                                                        <ul>
+                                                            ${blocker.resolution.alternatives.map(alt => `<li>${alt}</li>`).join('')}
+                                                        </ul>
+                                                    </div>
+                                                ` : ''}
+                                            </div>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        ` : '<p style="color: #8b949e; font-style: italic;">No migration blockers identified</p>'}
                     </div>
                 </div>
             `;

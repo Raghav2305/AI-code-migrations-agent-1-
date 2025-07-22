@@ -14,6 +14,16 @@ import {
   logInfo, 
   logError 
 } from '../../shared/utils';
+import { 
+  logAnalysisStart,
+  logStep,
+  logProgress,
+  logSuccess,
+  logAnalysisError,
+  logRepoInfo,
+  logFileAnalysis,
+  logAICall
+} from '../../shared/utils/simple-enhanced-logger';
 
 export interface GitHubAnalyzerState {
   repositoryUrl: string;
@@ -76,7 +86,7 @@ export class GitHubRepoAnalyzerAgent {
       
       // Get content for key files
       const filesWithContent = await Promise.all(
-        processableFiles.slice(0, 50).map(async (file) => {
+        processableFiles.slice(0, 3000).map(async (file) => {
           try {
             if (file.type === 'file' && file.size && file.size < 10000) {
               const content = await this.githubClient.getFileContent(owner, repo, file.path, state.repository?.branch);
@@ -152,6 +162,9 @@ export class GitHubRepoAnalyzerAgent {
       
       const analysisPrompt = this.createAnalysisPrompt(state.repository, state.fileStructure);
       
+      // Log AI call
+      logAICall('Repository Summary Generation', analysisPrompt);
+      
       const summaryResponse = await this.llmClient.generateStructuredResponse<{
         purpose: string;
         mainTechnologies: string[];
@@ -169,6 +182,9 @@ export class GitHubRepoAnalyzerAgent {
         }),
         'You are an expert software architect analyzing a GitHub repository. Provide a comprehensive analysis based on the repository structure and files.'
       );
+      
+      // Log AI response
+      logAICall('Repository Summary Received', undefined, summaryResponse);
       
       const repositoryAnalysis: RepositoryAnalysis = {
         repository: state.repository,
@@ -209,7 +225,7 @@ export class GitHubRepoAnalyzerAgent {
     const sampleFiles = fileStructure.files
       .filter(f => f.content && f.content.length > 0)
       .slice(0, 5)
-      .map(f => `File: ${f.path}\n${f.content!.slice(0, 500)}...`)
+      .map(f => `File: ${f.path}\n${f.content!.slice(0, 2000)}...`)
       .join('\n\n');
 
     return `
@@ -244,6 +260,9 @@ Please respond with a JSON object matching the specified schema.
   }
 
   async analyze(repositoryUrl: string): Promise<RepositoryAnalysis> {
+    // Start enhanced logging
+    logAnalysisStart('GitHub Repository Analysis', { repositoryUrl });
+    
     try {
       let state: GitHubAnalyzerState = {
         repositoryUrl,
@@ -253,22 +272,38 @@ Please respond with a JSON object matching the specified schema.
         metadata: {}
       };
 
-      // Execute workflow steps sequentially
+      // Execute workflow steps sequentially with enhanced logging
+      logStep('Repository Fetch', { url: repositoryUrl });
       state = await this.fetchRepository(state);
       if (state.errors.length > 0) {
         throw new Error(`Fetch repository failed: ${state.errors.join(', ')}`);
       }
+      
+      if (state.repository) {
+        logRepoInfo(state.repository);
+      }
 
+      logStep('File Analysis', { targetFiles: 'Processing repository files' });
       state = await this.analyzeFiles(state);
       if (state.errors.length > 0) {
         throw new Error(`Analyze files failed: ${state.errors.join(', ')}`);
       }
+      
+      if (state.files) {
+        logProgress(`Analyzed ${state.files.length} files`);
+      }
 
+      logStep('File Categorization', { operation: 'Organizing files by category' });
       state = await this.categorizeStructure(state);
       if (state.errors.length > 0) {
         throw new Error(`Categorize structure failed: ${state.errors.join(', ')}`);
       }
+      
+      if (state.fileStructure) {
+        logFileAnalysis(state.fileStructure);
+      }
 
+      logStep('AI Summary Generation', { model: 'Gemini AI' });
       state = await this.generateSummary(state);
       if (state.errors.length > 0) {
         throw new Error(`Generate summary failed: ${state.errors.join(', ')}`);
@@ -278,9 +313,17 @@ Please respond with a JSON object matching the specified schema.
         throw new Error('Repository analysis not completed');
       }
       
+      // Log successful completion
+      logSuccess('GitHub Repository Analysis Completed', {
+        repository: state.repositoryAnalysis.repository.name,
+        totalFiles: state.repositoryAnalysis.fileStructure.totalFiles,
+        projectType: state.repositoryAnalysis.summary.projectType,
+        complexity: state.repositoryAnalysis.summary.complexity
+      });
+      
       return state.repositoryAnalysis;
     } catch (error) {
-      logError('GitHub repository analysis failed', error as Error);
+      logAnalysisError('GitHub repository analysis failed', error as Error);
       throw error;
     }
   }

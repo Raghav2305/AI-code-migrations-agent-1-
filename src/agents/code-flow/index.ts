@@ -20,6 +20,12 @@ import {
 } from '../../shared/types';
 import { LLMClient } from '../../shared/utils/llm-client';
 import { logInfo, logError } from '../../shared/utils/logger';
+import { 
+  logAgent3Input,
+  logAgent3Output,
+  logAgent3Error,
+  agentIOLogger
+} from '../../shared/utils/agent-io-logger';
 
 interface CodeFlowState {
   repositoryAnalysis: RepositoryAnalysis;
@@ -961,6 +967,12 @@ Provide recommendations that support legacy modernization goals.
   }
 
   async analyze(repositoryAnalysis: RepositoryAnalysis, architectureAnalysis: ArchitectureAnalysis): Promise<CodeFlowAnalysis> {
+    const startTime = Date.now();
+    
+    // Log exact input to Agent 3 (both repository and architecture analysis)
+    const inputData = { repositoryAnalysis, architectureAnalysis };
+    const inputId = await logAgent3Input(inputData);
+    
     try {
       let state: CodeFlowState = {
         repositoryAnalysis,
@@ -1006,8 +1018,23 @@ Provide recommendations that support legacy modernization goals.
         throw new Error('Code flow analysis failed to produce results');
       }
       
+      // Calculate execution time
+      const executionTime = (Date.now() - startTime) / 1000;
+      
+      // Log exact output from Agent 3
+      await logAgent3Output(state.codeFlowAnalysis, inputId, executionTime);
+      
+      // Log comparison between input and output
+      await agentIOLogger.logComparison('Code Flow Agent', 'analyze', inputData, state.codeFlowAnalysis);
+      
       return state.codeFlowAnalysis;
     } catch (error) {
+      // Calculate execution time for error
+      const executionTime = (Date.now() - startTime) / 1000;
+      
+      // Log error with input context
+      await logAgent3Error(error as Error, inputId, executionTime);
+      
       logError('Code flow analysis failed', error as Error);
       throw error;
     }

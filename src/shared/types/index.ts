@@ -273,12 +273,132 @@ export interface DataBottleneck {
   suggestions: string[];
 }
 
+// Agent 4 output types - Risk Assessment
+export interface RiskAssessment {
+  repository: Repository;
+  riskCategories: {
+    high_risk: RiskItem[];
+    medium_risk: RiskItem[];
+    low_risk: RiskItem[];
+  };
+  vulnerabilities: SecurityVulnerability[];
+  complexityMetrics: ComplexityMetrics;
+  dependencyRisks: DependencyRisk[];
+  migrationBlockers: MigrationBlocker[];
+  overallRiskScore: number; // 0-100
+  priorityActions: string[];
+  timestamp: string;
+}
+
+export interface RiskItem {
+  id: string;
+  type: 'complexity' | 'dependency' | 'security' | 'architecture' | 'code_quality' | 'performance';
+  severity: 'low' | 'medium' | 'high' | 'critical';
+  title: string;
+  description: string;
+  location: string; // File path or component
+  impact: string;
+  recommendation: string;
+  effort: 'low' | 'medium' | 'high';
+  migrationImpact: 'blocker' | 'significant' | 'minor' | 'none';
+}
+
+export interface SecurityVulnerability {
+  id: string;
+  type: 'dependency' | 'code' | 'configuration' | 'api';
+  severity: 'low' | 'medium' | 'high' | 'critical';
+  title: string;
+  description: string;
+  location: string;
+  cveId?: string;
+  fixVersion?: string;
+  patchAvailable: boolean;
+  recommendation: string;
+  references: string[];
+}
+
+export interface ComplexityMetrics {
+  fileComplexity: FileComplexityMetric[];
+  overallComplexity: {
+    totalLinesOfCode: number;
+    averageFileSize: number;
+    largestFiles: string[];
+    cyclomaticComplexity: number;
+    maintainabilityIndex: number;
+  };
+  complexityHotspots: ComplexityHotspot[];
+}
+
+export interface FileComplexityMetric {
+  file: string;
+  linesOfCode: number;
+  complexity: number;
+  maintainabilityIndex: number;
+  riskLevel: 'low' | 'medium' | 'high';
+  issues: string[];
+}
+
+export interface ComplexityHotspot {
+  location: string;
+  type: 'large_file' | 'complex_function' | 'deep_nesting' | 'long_parameter_list' | 'god_class';
+  severity: 'low' | 'medium' | 'high';
+  metrics: Record<string, number>;
+  description: string;
+  refactoringSuggestion: string;
+}
+
+export interface DependencyRisk {
+  name: string;
+  currentVersion: string;
+  type: 'runtime' | 'development' | 'peer' | 'optional';
+  riskLevel: 'low' | 'medium' | 'high' | 'critical';
+  issues: DependencyIssue[];
+  recommendations: DependencyRecommendation[];
+}
+
+export interface DependencyIssue {
+  type: 'outdated' | 'deprecated' | 'vulnerable' | 'unmaintained' | 'license_issue';
+  severity: 'low' | 'medium' | 'high' | 'critical';
+  description: string;
+  details: string;
+  impact: string;
+}
+
+export interface DependencyRecommendation {
+  action: 'update' | 'replace' | 'remove' | 'audit';
+  targetVersion?: string;
+  alternative?: string;
+  effort: 'low' | 'medium' | 'high';
+  priority: 'low' | 'medium' | 'high' | 'critical';
+  description: string;
+  migrationNotes?: string;
+}
+
+export interface MigrationBlocker {
+  id: string;
+  type: 'dependency' | 'architecture' | 'code' | 'infrastructure' | 'business_logic';
+  severity: 'blocker' | 'critical' | 'major' | 'minor';
+  title: string;
+  description: string;
+  impact: string;
+  location: string;
+  blockedBy: string[];
+  resolution: {
+    effort: 'low' | 'medium' | 'high' | 'very_high';
+    timeEstimate: string;
+    steps: string[];
+    alternatives: string[];
+  };
+  dependencies: string[]; // Other blockers this depends on
+}
+
 // Agent state types for LangGraph
 export interface AgentState {
   repository?: Repository;
   repositoryAnalysis?: RepositoryAnalysis;
   architectureAnalysis?: ArchitectureAnalysis;
   codeFlowAnalysis?: CodeFlowAnalysis;
+  riskAssessment?: RiskAssessment;
   currentStep: string;
   progress: number;
   errors: string[];
@@ -305,6 +425,7 @@ export interface AnalysisResponse {
     repositoryAnalysis?: RepositoryAnalysis;
     architectureAnalysis?: ArchitectureAnalysis;
     codeFlowAnalysis?: CodeFlowAnalysis;
+    riskAssessment?: RiskAssessment;
   };
   error?: string;
   createdAt: string;
