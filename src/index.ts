@@ -5,7 +5,7 @@ import { logInfo, logError } from './shared/utils';
 dotenv.config();
 
 // Validate required environment variables
-const requiredEnvVars = ['GOOGLE_API_KEY'];
+const requiredEnvVars = ['GEMINI_KEY_AI_HACKATHON'];
 const missingEnvVars = requiredEnvVars.filter(varName => !process.env[varName]);
 
 if (missingEnvVars.length > 0) {
