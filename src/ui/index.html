@@ -12,184 +12,185 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #333;
+            font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0d1117;
+            color: #e6edf3;
             line-height: 1.6;
             min-height: 100vh;
+            margin: 0;
+            padding: 0;
         }
 
         .container {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 24px;
         }
 
         .header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            color: #333;
-            padding: 30px 40px;
+            background: #161b22;
+            border: 1px solid #30363d;
+            color: #e6edf3;
+            padding: 24px 32px;
             text-align: center;
-            margin-bottom: 30px;
-            border-radius: 16px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 24px;
+            border-radius: 8px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.12);
         }
 
         .header h1 {
-            font-size: 2.8rem;
-            margin-bottom: 10px;
-            font-weight: 700;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            font-size: 2.25rem;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #f0f6fc;
+            letter-spacing: -0.025em;
         }
 
         .header p {
-            font-size: 1.1rem;
-            color: #666;
+            font-size: 1rem;
+            color: #8b949e;
             font-weight: 400;
+            margin: 0;
         }
 
         .form-section {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 40px;
-            border-radius: 16px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-            margin-bottom: 30px;
+            background: #161b22;
+            border: 1px solid #30363d;
+            padding: 24px;
+            border-radius: 8px;
+            margin-bottom: 24px;
         }
 
         .form-section h2 {
-            color: #333;
-            margin-bottom: 25px;
-            font-size: 1.5rem;
+            color: #f0f6fc;
+            margin-bottom: 16px;
+            font-size: 1.25rem;
             font-weight: 600;
         }
 
         .form-group {
-            margin-bottom: 25px;
+            margin-bottom: 16px;
         }
 
         label {
             display: block;
             margin-bottom: 8px;
             font-weight: 500;
-            color: #555;
-            font-size: 0.95rem;
+            color: #e6edf3;
+            font-size: 0.875rem;
         }
 
         input[type="url"] {
             width: 100%;
-            padding: 16px;
-            border: 2px solid #e1e5e9;
-            border-radius: 12px;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            background: #fafbfc;
+            padding: 12px 16px;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            background: #0d1117;
+            color: #e6edf3;
+            box-sizing: border-box;
         }
 
         input[type="url"]:focus {
             outline: none;
-            border-color: #667eea;
-            background: #fff;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            border-color: #1f6feb;
+            box-shadow: 0 0 0 3px rgba(31, 111, 235, 0.15);
         }
 
         .btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 16px 32px;
+            background: #238636;
+            color: #fff;
+            padding: 12px 24px;
             border: none;
-            border-radius: 12px;
-            font-size: 16px;
+            border-radius: 6px;
+            font-size: 14px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            transition: all 0.2s ease;
         }
 
         .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+            background: #2ea043;
         }
 
         .btn:disabled {
             opacity: 0.6;
             cursor: not-allowed;
-            transform: none;
+            background: #238636;
         }
 
         .progress-section {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 40px;
-            border-radius: 16px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-            margin-bottom: 30px;
+            background: #161b22;
+            border: 1px solid #30363d;
+            padding: 24px;
+            border-radius: 8px;
+            margin-bottom: 24px;
             display: none;
         }
 
         .progress-bar {
             width: 100%;
-            height: 12px;
-            background: #e1e5e9;
-            border-radius: 6px;
+            height: 8px;
+            background: #21262d;
+            border-radius: 4px;
             overflow: hidden;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
 
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, #667eea, #764ba2);
+            background: #238636;
             transition: width 0.3s ease;
             width: 0%;
         }
 
         .progress-text {
-            font-size: 16px;
-            color: #666;
+            font-size: 14px;
+            color: #8b949e;
             font-weight: 500;
             text-align: center;
         }
 
         .results-section {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 40px;
-            border-radius: 16px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            background: #161b22;
+            border: 1px solid #30363d;
+            padding: 24px;
+            border-radius: 8px;
             display: none;
         }
 
         .results-tabs {
             display: flex;
-            border-bottom: 2px solid #f0f0f0;
-            margin-bottom: 30px;
+            border-bottom: 1px solid #30363d;
+            margin-bottom: 24px;
             overflow-x: auto;
+            gap: 8px;
         }
 
         .tab-button {
-            padding: 16px 24px;
+            padding: 12px 16px;
             border: none;
             background: none;
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 500;
             cursor: pointer;
-            border-bottom: 3px solid transparent;
-            transition: all 0.3s ease;
+            border-radius: 6px 6px 0 0;
+            transition: all 0.2s ease;
             white-space: nowrap;
-            color: #666;
+            color: #8b949e;
+            border-bottom: 2px solid transparent;
         }
 
         .tab-button.active {
-            color: #667eea;
-            border-bottom-color: #667eea;
+            color: #e6edf3;
+            background: #0d1117;
+            border-bottom-color: #1f6feb;
         }
 
         .tab-button:hover {
-            color: #667eea;
+            color: #e6edf3;
+            background: #21262d;
         }
 
         .tab-content {
@@ -200,75 +201,325 @@
             display: block;
         }
 
+        /* Nested tabs styles */
+        .nested-tabs {
+            display: flex;
+            border-bottom: 1px solid #21262d;
+            margin-bottom: 16px;
+            gap: 4px;
+        }
+
+        .nested-tab-button {
+            padding: 8px 12px;
+            border: none;
+            background: none;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+            color: #8b949e;
+            border-bottom: 2px solid transparent;
+        }
+
+        .nested-tab-button.active {
+            color: #e6edf3;
+            background: #21262d;
+            border-bottom-color: #1f6feb;
+        }
+
+        .nested-tab-button:hover {
+            color: #e6edf3;
+            background: #21262d;
+        }
+
+        .nested-tab-content {
+            display: none;
+        }
+
+        .nested-tab-content.active {
+            display: block;
+        }
+
         .metrics-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
         }
 
         .metric-card {
-            background: #f8f9fa;
-            border: 1px solid #e9ecef;
-            border-radius: 12px;
-            padding: 24px;
+            background: #0d1117;
+            border: 1px solid #21262d;
+            border-radius: 8px;
+            padding: 16px;
             text-align: center;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
         }
 
         .metric-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border-color: #30363d;
+            background: #161b22;
         }
 
         .metric-value {
-            font-size: 2.5rem;
+            font-size: 2rem;
             font-weight: 700;
-            color: #667eea;
-            margin-bottom: 8px;
+            color: #1f6feb;
+            margin-bottom: 4px;
         }
 
         .metric-label {
-            font-size: 0.9rem;
-            color: #666;
+            font-size: 0.875rem;
+            color: #8b949e;
             font-weight: 500;
         }
 
         .result-card {
-            background: #f8f9fa;
-            border: 1px solid #e9ecef;
-            border-radius: 12px;
-            padding: 30px;
-            margin-bottom: 25px;
-            transition: all 0.3s ease;
+            background: #0d1117;
+            border: 1px solid #21262d;
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 16px;
+            transition: all 0.2s ease;
         }
 
         .result-card:hover {
-            border-color: #667eea;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.1);
+            border-color: #30363d;
+            background: #161b22;
         }
 
         .result-card h3 {
-            color: #333;
-            margin-bottom: 20px;
-            font-size: 1.3rem;
+            color: #f0f6fc;
+            margin-bottom: 16px;
+            font-size: 1.125rem;
             font-weight: 600;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
 
         .result-card h3::before {
             content: '';
-            width: 4px;
-            height: 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            width: 3px;
+            height: 16px;
+            background: #1f6feb;
             border-radius: 2px;
+        }
+
+        /* Developer-focused Code Flow styles */
+        .code-flow-section {
+            background: #0d1117;
+            border: 1px solid #21262d;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            overflow: hidden;
+        }
+
+        .code-flow-header {
+            background: #161b22;
+            padding: 12px 16px;
+            border-bottom: 1px solid #21262d;
+            font-size: 14px;
+            font-weight: 600;
+            color: #f0f6fc;
+        }
+
+        .code-flow-content {
+            padding: 16px;
+        }
+
+        .code-flow-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .flow-item {
+            background: #161b22;
+            border: 1px solid #21262d;
+            border-radius: 6px;
+            padding: 12px;
+            font-size: 13px;
+            transition: all 0.2s ease;
+        }
+
+        .flow-item:hover {
+            border-color: #30363d;
+        }
+
+        .flow-item-header {
+            font-weight: 600;
+            color: #f0f6fc;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .flow-item-content {
+            color: #8b949e;
+            font-family: 'SF Mono', Monaco, Inconsolata, 'Roboto Mono', monospace;
+            font-size: 12px;
+        }
+
+        .entry-point {
+            display: inline-block;
+            background: #1f6feb;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 11px;
+            font-weight: 500;
+            margin: 2px;
+        }
+
+        .dependency-item {
+            background: #161b22;
+            border: 1px solid #21262d;
+            border-radius: 4px;
+            padding: 8px 12px;
+            margin: 4px 0;
+            font-family: 'SF Mono', Monaco, Inconsolata, 'Roboto Mono', monospace;
+            font-size: 12px;
+            transition: all 0.2s ease;
+        }
+
+        .dependency-item:hover {
+            border-color: #30363d;
+        }
+
+        .dependency-source {
+            color: #1f6feb;
+            font-weight: 500;
+        }
+
+        .dependency-arrow {
+            color: #8b949e;
+            margin: 0 8px;
+        }
+
+        .dependency-target {
+            color: #2ea043;
+            font-weight: 500;
+        }
+
+        .circular-dep {
+            background: #332e1a;
+            border-color: #735c0f;
+            color: #f1e05a;
+        }
+
+        .complexity-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+
+        .complexity-low {
+            background: #033a16;
+            color: #2ea043;
+        }
+
+        .complexity-medium {
+            background: #332e1a;
+            color: #f1e05a;
+        }
+
+        .complexity-high {
+            background: #5a1e1e;
+            color: #f85149;
+        }
+
+        .data-flow-item {
+            background: #0d1117;
+            border: 1px solid #1f6feb;
+            border-radius: 4px;
+            padding: 8px 12px;
+            margin: 4px 0;
+            font-size: 12px;
+            transition: all 0.2s ease;
+        }
+
+        .data-flow-item:hover {
+            background: #161b22;
+        }
+
+        .data-flow-name {
+            font-weight: 600;
+            color: #1f6feb;
+        }
+
+        .data-flow-details {
+            color: #8b949e;
+            font-family: 'SF Mono', Monaco, Inconsolata, 'Roboto Mono', monospace;
+            margin-top: 4px;
+        }
+
+        .bottleneck-item {
+            background: #2d1b1b;
+            border: 1px solid #5a1e1e;
+            border-radius: 4px;
+            padding: 8px 12px;
+            margin: 4px 0;
+            font-size: 12px;
+            transition: all 0.2s ease;
+        }
+
+        .bottleneck-item:hover {
+            background: #3d1f1f;
+        }
+
+        .bottleneck-location {
+            font-weight: 600;
+            color: #f85149;
+        }
+
+        .bottleneck-type {
+            color: #e3b341;
+            font-style: italic;
+        }
+
+        .flow-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .stat-box {
+            background: #161b22;
+            border: 1px solid #21262d;
+            border-radius: 6px;
+            padding: 12px;
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+
+        .stat-box:hover {
+            border-color: #30363d;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #f0f6fc;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #8b949e;
+            margin-top: 4px;
         }
 
         .result-value {
             font-weight: 600;
-            color: #333;
+            color: #e6edf3;
         }
 
         .tech-stack {
@@ -312,18 +563,18 @@
         }
 
         .status-low {
-            background: #d4edda;
-            color: #155724;
+            background: #2ea043;
+            color: #ffffff;
         }
 
         .status-medium {
-            background: #fff3cd;
-            color: #856404;
+            background: #fb8500;
+            color: #ffffff;
         }
 
         .status-high {
-            background: #f8d7da;
-            color: #721c24;
+            background: #f85149;
+            color: #ffffff;
         }
 
         .json-output {
@@ -359,12 +610,12 @@
         }
 
         .error-message {
-            background: #f8d7da;
-            color: #721c24;
+            background: rgba(248, 81, 73, 0.1);
+            color: #f85149;
             padding: 20px;
             border-radius: 12px;
             margin-bottom: 20px;
-            border: 1px solid #f5c6cb;
+            border: 1px solid #f85149;
             font-weight: 500;
         }
 
@@ -372,8 +623,8 @@
             display: inline-block;
             width: 20px;
             height: 20px;
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #667eea;
+            border: 3px solid #21262d;
+            border-top: 3px solid #58a6ff;
             border-radius: 50%;
             animation: spin 1s linear infinite;
             margin-right: 10px;
@@ -396,7 +647,7 @@
         }
 
         .info-group h4 {
-            color: #667eea;
+            color: #58a6ff;
             margin-bottom: 10px;
             font-size: 1.1rem;
             font-weight: 600;
@@ -404,7 +655,7 @@
 
         .info-group p {
             margin-bottom: 8px;
-            color: #555;
+            color: #e6edf3;
         }
 
         .list-items {
@@ -415,12 +666,528 @@
         }
 
         .list-item {
-            background: #e9ecef;
+            background: #21262d;
             padding: 4px 12px;
             border-radius: 20px;
             font-size: 12px;
-            color: #495057;
+            color: #e6edf3;
             font-weight: 500;
+        }
+
+        /* Code Flow Styles */
+        .code-flow-section {
+            background: #0d1117;
+            border: 1px solid #21262d;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .code-flow-header {
+            color: #f0f6fc;
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #21262d;
+        }
+
+        .code-flow-content {
+            color: #e6edf3;
+        }
+
+        .flow-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .stat-box {
+            background: #161b22;
+            border: 1px solid #21262d;
+            border-radius: 6px;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 600;
+            color: #58a6ff;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: #8b949e;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .code-flow-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 12px;
+        }
+
+        .flow-item {
+            background: #161b22;
+            border: 1px solid #21262d;
+            border-radius: 6px;
+            padding: 12px;
+            transition: all 0.2s ease;
+            overflow: hidden;
+            min-width: 0;
+        }
+
+        .flow-item:hover {
+            border-color: #30363d;
+            background: #21262d;
+        }
+
+        .flow-item-header {
+            font-weight: 600;
+            color: #f0f6fc;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .flow-item-content {
+            color: #e6edf3;
+            font-size: 12px;
+            line-height: 1.4;
+            word-break: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .entry-point {
+            background: #1f6feb;
+            color: #ffffff;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 500;
+            margin-right: 8px;
+            text-transform: uppercase;
+        }
+
+        .complexity-badge {
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+
+        .complexity-low {
+            background: #2ea043;
+            color: #ffffff;
+        }
+
+        .complexity-medium {
+            background: #fb8500;
+            color: #ffffff;
+        }
+
+        .complexity-high {
+            background: #f85149;
+            color: #ffffff;
+        }
+
+        .dependency-item {
+            background: #161b22;
+            border: 1px solid #21262d;
+            border-radius: 4px;
+            padding: 8px 12px;
+            margin-bottom: 4px;
+            font-size: 12px;
+            word-break: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .dependency-source {
+            color: #58a6ff;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+        }
+
+        .dependency-arrow {
+            color: #8b949e;
+            margin: 0 8px;
+        }
+
+        .dependency-target {
+            color: #f0f6fc;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+        }
+
+        .circular-dep {
+            border-color: #f85149;
+            background: rgba(248, 81, 73, 0.1);
+        }
+
+        .data-flow-item {
+            background: #161b22;
+            border: 1px solid #21262d;
+            border-radius: 6px;
+            padding: 12px;
+        }
+
+        .data-flow-name {
+            font-weight: 600;
+            color: #f0f6fc;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .data-flow-details {
+            color: #e6edf3;
+            font-size: 12px;
+            line-height: 1.4;
+            word-break: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .bottleneck-item {
+            background: rgba(248, 81, 73, 0.1);
+            border: 1px solid #f85149;
+            border-radius: 4px;
+            padding: 8px 12px;
+            margin-bottom: 8px;
+        }
+
+        .bottleneck-location {
+            color: #f85149;
+            font-weight: 600;
+            font-size: 12px;
+        }
+
+        .bottleneck-type {
+            color: #e6edf3;
+            font-size: 11px;
+            margin-top: 4px;
+        }
+
+        .recommendation-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .recommendation-list li {
+            background: #161b22;
+            border: 1px solid #21262d;
+            border-radius: 4px;
+            padding: 8px 12px;
+            margin-bottom: 8px;
+            color: #e6edf3;
+            font-size: 14px;
+            line-height: 1.4;
+            word-break: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .recommendation-list li strong,
+        .recommendation-list li b {
+            color: #58a6ff;
+            font-weight: 600;
+        }
+
+        .recommendation-list li::before {
+            content: "💡";
+            margin-right: 8px;
+        }
+
+        /* Risk Assessment Styles */
+        .risk-section {
+            background: #161b22;
+            border: 1px solid #21262d;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .risk-header {
+            color: #f0f6fc;
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #21262d;
+        }
+
+        .risk-content {
+            color: #e6edf3;
+        }
+
+        .risk-score-high {
+            color: #f85149 !important;
+        }
+
+        .risk-score-medium {
+            color: #d29922 !important;
+        }
+
+        .risk-score-low {
+            color: #3fb950 !important;
+        }
+
+        .priority-actions {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .priority-action {
+            background: #161b22;
+            border-left: 4px solid #30363d;
+            padding: 12px 16px;
+            margin-bottom: 8px;
+            border-radius: 0 4px 4px 0;
+            font-size: 14px;
+        }
+
+        .priority-action.urgent {
+            border-left-color: #f85149;
+            background: rgba(248, 81, 73, 0.1);
+        }
+
+        .priority-action.blocker {
+            border-left-color: #d29922;
+            background: rgba(210, 153, 34, 0.1);
+        }
+
+        .priority-action.normal {
+            border-left-color: #58a6ff;
+            background: rgba(88, 166, 255, 0.1);
+        }
+
+        .risk-category {
+            background: #0d1117;
+            border: 1px solid #21262d;
+            border-radius: 6px;
+            margin-bottom: 16px;
+            overflow: hidden;
+        }
+
+        .category-header {
+            padding: 12px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .category-header.high_risk {
+            background: rgba(248, 81, 73, 0.15);
+            border-bottom: 1px solid #f85149;
+        }
+
+        .category-header.medium_risk {
+            background: rgba(210, 153, 34, 0.15);
+            border-bottom: 1px solid #d29922;
+        }
+
+        .category-header.low_risk {
+            background: rgba(63, 185, 80, 0.15);
+            border-bottom: 1px solid #3fb950;
+        }
+
+        .category-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .category-badge.high_risk {
+            background: #f85149;
+            color: #ffffff;
+        }
+
+        .category-badge.medium_risk {
+            background: #d29922;
+            color: #ffffff;
+        }
+
+        .category-badge.low_risk {
+            background: #3fb950;
+            color: #ffffff;
+        }
+
+        .category-count {
+            color: #8b949e;
+            font-size: 12px;
+        }
+
+        .risk-items {
+            padding: 0;
+        }
+
+        .risk-item {
+            border-bottom: 1px solid #21262d;
+            padding: 16px;
+        }
+
+        .risk-item:last-child {
+            border-bottom: none;
+        }
+
+        .risk-item-header {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .risk-type {
+            background: #21262d;
+            color: #58a6ff;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .risk-title {
+            font-weight: 600;
+            color: #f0f6fc;
+        }
+
+        .risk-item-content {
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .risk-item-content p {
+            margin: 4px 0;
+        }
+
+        .risk-metadata {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .effort-badge, .migration-impact-badge {
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .effort-low { background: #3fb950; color: #ffffff; }
+        .effort-medium { background: #d29922; color: #ffffff; }
+        .effort-high { background: #f85149; color: #ffffff; }
+
+        .impact-none { background: #8b949e; color: #ffffff; }
+        .impact-minor { background: #58a6ff; color: #ffffff; }
+        .impact-significant { background: #d29922; color: #ffffff; }
+        .impact-blocker { background: #f85149; color: #ffffff; }
+
+        .vulnerabilities-list, .blockers-list {
+            space-y: 16px;
+        }
+
+        .vulnerability-item, .blocker-item {
+            background: #0d1117;
+            border: 1px solid #21262d;
+            border-radius: 6px;
+            margin-bottom: 16px;
+            overflow: hidden;
+        }
+
+        .vulnerability-header, .blocker-header {
+            padding: 12px 16px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            border-bottom: 1px solid #21262d;
+        }
+
+        .severity-badge, .blocker-severity {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .severity-low { background: #3fb950; color: #ffffff; }
+        .severity-medium { background: #d29922; color: #ffffff; }
+        .severity-high { background: #f85149; color: #ffffff; }
+        .severity-critical { background: #da3633; color: #ffffff; }
+        .severity-blocker { background: #8250df; color: #ffffff; }
+        .severity-major { background: #f85149; color: #ffffff; }
+        .severity-minor { background: #58a6ff; color: #ffffff; }
+
+        .vulnerability-title, .blocker-title {
+            font-weight: 600;
+            color: #f0f6fc;
+            flex-grow: 1;
+        }
+
+        .cve-id {
+            background: #21262d;
+            color: #8b949e;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+        }
+
+        .blocker-type {
+            background: #21262d;
+            color: #8b949e;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 11px;
+        }
+
+        .vulnerability-content, .blocker-content {
+            padding: 16px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .vulnerability-content p, .blocker-content p {
+            margin: 4px 0;
+        }
+
+        .vulnerability-status {
+            margin-top: 8px;
+        }
+
+        .patch-status {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .patch-status.available {
+            background: rgba(63, 185, 80, 0.15);
+            color: #3fb950;
+        }
+
+        .patch-status.unavailable {
+            background: rgba(248, 81, 73, 0.15);
+            color: #f85149;
+        }
+
+        .resolution-info {
+            background: #161b22;
+            border: 1px solid #21262d;
+            border-radius: 4px;
+            padding: 12px;
+            margin-top: 8px;
+        }
+
+        .resolution-steps ul, .alternatives ul {
+            margin: 8px 0;
+            padding-left: 20px;
+        }
+
+        .resolution-steps li, .alternatives li {
+            margin: 4px 0;
+            color: #e6edf3;
         }
 
         @media (max-width: 768px) {
@@ -481,6 +1248,8 @@
                 <button class="tab-button active" data-tab="overview">📊 Overview</button>
                 <button class="tab-button" data-tab="metrics">📈 Metrics</button>
                 <button class="tab-button" data-tab="architecture">🏗️ Architecture</button>
+                <button class="tab-button" data-tab="codeflow">🔀 Code Flow</button>
+                <button class="tab-button" data-tab="riskassessment">🚨 Risk Assessment</button>
                 <button class="tab-button" data-tab="recommendations">💡 Recommendations</button>
                 <button class="tab-button" data-tab="raw">📋 Raw Data</button>
             </div>
@@ -505,6 +1274,56 @@
             <div class="tab-content" id="architecture">
                 <div class="architecture-grid" id="architectureGrid">
                     <!-- Architecture details will be populated here -->
+                </div>
+            </div>
+
+            <div class="tab-content" id="codeflow">
+                <div class="nested-tabs">
+                    <button class="nested-tab-button active" data-nested-tab="flow-overview">📊 Overview</button>
+                    <button class="nested-tab-button" data-nested-tab="flow-paths">🔀 Execution Paths</button>
+                    <button class="nested-tab-button" data-nested-tab="flow-dependencies">🔗 Dependencies</button>
+                    <button class="nested-tab-button" data-nested-tab="flow-dataflow">💾 Data Flow</button>
+                </div>
+                
+                <div class="nested-tab-content active" id="flow-overview">
+                    <div id="codeFlowOverview"></div>
+                </div>
+                
+                <div class="nested-tab-content" id="flow-paths">
+                    <div id="codeFlowPaths"></div>
+                </div>
+                
+                <div class="nested-tab-content" id="flow-dependencies">
+                    <div id="codeFlowDependencies"></div>
+                </div>
+                
+                <div class="nested-tab-content" id="flow-dataflow">
+                    <div id="codeFlowDataFlow"></div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="riskassessment">
+                <div class="nested-tabs">
+                    <button class="nested-tab-button active" data-nested-tab="risk-overview">🚨 Overview</button>
+                    <button class="nested-tab-button" data-nested-tab="risk-categories">📊 Risk Categories</button>
+                    <button class="nested-tab-button" data-nested-tab="risk-vulnerabilities">🔒 Vulnerabilities</button>
+                    <button class="nested-tab-button" data-nested-tab="risk-blockers">🚧 Migration Blockers</button>
+                </div>
+                
+                <div class="nested-tab-content active" id="risk-overview">
+                    <div id="riskOverview"></div>
+                </div>
+                
+                <div class="nested-tab-content" id="risk-categories">
+                    <div id="riskCategories"></div>
+                </div>
+                
+                <div class="nested-tab-content" id="risk-vulnerabilities">
+                    <div id="riskVulnerabilities"></div>
+                </div>
+                
+                <div class="nested-tab-content" id="risk-blockers">
+                    <div id="riskBlockers"></div>
                 </div>
             </div>
 
@@ -581,14 +1400,17 @@
             
             eventSource.onmessage = (event) => {
                 const data = JSON.parse(event.data);
+                console.log('Received event:', data);
                 updateProgress(data);
                 
                 if (data.status === 'completed') {
                     analysisResults = data.result;
+                    console.log('Analysis completed, results:', analysisResults);
                     displayResults();
                     eventSource.close();
                     resetUI();
                 } else if (data.status === 'failed') {
+                    console.error('Analysis failed:', data.error);
                     showError(data.error || 'Analysis failed');
                     eventSource.close();
                     resetUI();
@@ -597,7 +1419,15 @@
             
             eventSource.onerror = (error) => {
                 console.error('EventSource error:', error);
-                showError('Connection error. Please try again.');
+                
+                // Check if this is a connection reset (server restart)
+                if (error.type === 'error' && eventSource.readyState === EventSource.CLOSED) {
+                    console.log('Server appears to have restarted, attempting to reconnect...');
+                    showError('Server restarted. Please refresh the page and try again.');
+                } else {
+                    showError('Connection error. Please try again.');
+                }
+                
                 eventSource.close();
                 resetUI();
             };
@@ -614,16 +1444,58 @@
 
         // Display analysis results
         function displayResults() {
+            console.log('displayResults called with:', analysisResults);
             const resultsSection = document.getElementById('resultsSection');
             
             if (analysisResults) {
-                displayOverview();
-                displayMetrics();
-                displayArchitecture();
-                displayRecommendations();
-                displayRawData();
-                
-                resultsSection.style.display = 'block';
+                try {
+                    displayOverview();
+                    displayMetrics();
+                    displayArchitecture();
+                    displayCodeFlow();
+                    displayRiskAssessment();
+                    displayRecommendations();
+                    displayRawData();
+                    
+                    // Set up nested tab event listeners after content is loaded
+                    setupNestedTabListeners();
+                    
+                    resultsSection.style.display = 'block';
+                    console.log('Results displayed successfully');
+                } catch (error) {
+                    console.error('Error displaying results:', error);
+                    showError('Failed to display results: ' + error.message);
+                }
+            } else {
+                console.log('No analysis results available');
+                showError('No analysis results available');
+            }
+        }
+
+        // Setup nested tab event listeners
+        function setupNestedTabListeners() {
+            try {
+                document.querySelectorAll('.nested-tab-button').forEach(button => {
+                    button.addEventListener('click', (e) => {
+                        const nestedTab = e.target.dataset.nestedTab;
+                        console.log('Nested tab clicked:', nestedTab);
+                        
+                        // Update active nested tab
+                        document.querySelectorAll('.nested-tab-button').forEach(b => b.classList.remove('active'));
+                        document.querySelectorAll('.nested-tab-content').forEach(c => c.classList.remove('active'));
+                        
+                        e.target.classList.add('active');
+                        const targetElement = document.getElementById(nestedTab);
+                        if (targetElement) {
+                            targetElement.classList.add('active');
+                        } else {
+                            console.error('Target nested tab element not found:', nestedTab);
+                        }
+                    });
+                });
+                console.log('Nested tab listeners set up successfully');
+            } catch (error) {
+                console.error('Error setting up nested tab listeners:', error);
             }
         }
 
@@ -664,6 +1536,7 @@
             const metricsGrid = document.getElementById('metricsGrid');
             const repo = analysisResults.repositoryAnalysis;
             const arch = analysisResults.architectureAnalysis;
+            const codeFlow = analysisResults.codeFlowAnalysis;
             
             const metrics = [
                 {
@@ -683,12 +1556,20 @@
                     label: 'Test Files'
                 },
                 {
-                    value: arch.fileAnalysis?.documentationFiles || repo.fileStructure.categories.documentation?.length || 0,
-                    label: 'Documentation Files'
+                    value: codeFlow?.codeFlow?.entryPoints?.length || 0,
+                    label: 'Entry Points'
                 },
                 {
-                    value: arch.architecture.components.length || 0,
-                    label: 'Components'
+                    value: codeFlow?.codeFlow?.executionPaths?.length || 0,
+                    label: 'Execution Paths'
+                },
+                {
+                    value: codeFlow?.dependencies?.circular?.length || 0,
+                    label: 'Circular Dependencies'
+                },
+                {
+                    value: codeFlow?.codeFlow?.cyclomaticComplexity || 0,
+                    label: 'Cyclomatic Complexity'
                 }
             ];
             
@@ -749,13 +1630,465 @@
             `;
         }
 
+        function displayCodeFlow() {
+            console.log('displayCodeFlow called', analysisResults);
+            const codeFlow = analysisResults.codeFlowAnalysis;
+            
+            if (!codeFlow) {
+                console.log('No codeFlow data available');
+                document.getElementById('codeFlowOverview').innerHTML = `
+                    <div class="code-flow-section">
+                        <div class="code-flow-header">Code Flow Analysis</div>
+                        <div class="code-flow-content">
+                            <p style="color: #8b949e; font-style: italic;">Code flow analysis not available</p>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+            
+            console.log('CodeFlow data:', codeFlow);
+            
+            // Overview Tab
+            document.getElementById('codeFlowOverview').innerHTML = `
+                <div class="code-flow-section">
+                    <div class="code-flow-header">📊 Code Flow Overview</div>
+                    <div class="code-flow-content">
+                        <div class="flow-stats">
+                            <div class="stat-box">
+                                <div class="stat-value">${codeFlow.codeFlow?.entryPoints?.length || 0}</div>
+                                <div class="stat-label">Entry Points</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-value">${codeFlow.codeFlow?.executionPaths?.length || 0}</div>
+                                <div class="stat-label">Execution Paths</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-value">${codeFlow.codeFlow?.cyclomaticComplexity || 0}</div>
+                                <div class="stat-label">Cyclomatic Complexity</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-value">
+                                    <span class="complexity-badge complexity-${codeFlow.complexity}">${codeFlow.complexity}</span>
+                                </div>
+                                <div class="stat-label">Overall Complexity</div>
+                            </div>
+                        </div>
+                        
+                        <div class="code-flow-section" style="margin-top: 16px;">
+                            <div class="code-flow-header">🚀 Entry Points</div>
+                            <div class="code-flow-content">
+                                ${(codeFlow.codeFlow?.entryPoints || []).length > 0 ? `
+                                    <div class="code-flow-grid">
+                                        ${(codeFlow.codeFlow?.entryPoints || []).slice(0, 8).map(ep => `
+                                            <div class="flow-item">
+                                                <div class="flow-item-header">
+                                                    <span class="entry-point">${ep.type}</span>
+                                                    ${ep.function}
+                                                </div>
+                                                <div class="flow-item-content">
+                                                    📁 ${ep.file}<br>
+                                                    📝 ${ep.description}
+                                                </div>
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                ` : '<p style="color: #8b949e; font-style: italic;">No entry points identified</p>'}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Execution Paths Tab
+            document.getElementById('codeFlowPaths').innerHTML = `
+                <div class="code-flow-section">
+                    <div class="code-flow-header">🔀 Execution Paths</div>
+                    <div class="code-flow-content">
+                        <div class="flow-stats">
+                            <div class="stat-box">
+                                <div class="stat-value">${codeFlow.codeFlow?.executionPaths?.length || 0}</div>
+                                <div class="stat-label">Total Paths</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-value">${codeFlow.codeFlow?.cyclomaticComplexity || 0}</div>
+                                <div class="stat-label">Cyclomatic Complexity</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-value">${codeFlow.codeFlow?.moduleInteractions?.length || 0}</div>
+                                <div class="stat-label">Module Interactions</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-value">${codeFlow.codeFlow?.flowPatterns?.length || 0}</div>
+                                <div class="stat-label">Flow Patterns</div>
+                            </div>
+                        </div>
+                        
+                        ${(codeFlow.codeFlow?.executionPaths || []).length > 0 ? `
+                            <div>
+                                <h4 style="margin-bottom: 12px; font-size: 14px; color: #f0f6fc;">Execution Paths</h4>
+                                <div class="code-flow-grid">
+                                    ${(codeFlow.codeFlow?.executionPaths || []).slice(0, 12).map(path => `
+                                        <div class="flow-item">
+                                            <div class="flow-item-header">
+                                                <span class="entry-point">${path.type}</span>
+                                                ${path.name}
+                                            </div>
+                                            <div class="flow-item-content">
+                                                <div>🎯 ${path.startPoint} → ${path.endPoint}</div>
+                                                <div style="margin-top: 8px;">
+                                                    <span class="complexity-badge complexity-${path.complexity}">${path.complexity}</span>
+                                                </div>
+                                                <div style="margin-top: 4px; font-size: 11px;">${path.description}</div>
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        ` : '<p style="color: #8b949e; font-style: italic;">No execution paths identified</p>'}
+                        
+                        ${(codeFlow.codeFlow?.flowPatterns || []).length > 0 ? `
+                            <div style="margin-top: 24px;">
+                                <h4 style="margin-bottom: 12px; font-size: 14px; color: #f0f6fc;">Flow Patterns</h4>
+                                <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                                    ${(codeFlow.codeFlow?.flowPatterns || []).map(pattern => `
+                                        <span class="entry-point" style="background: #2ea043;">${pattern}</span>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        ` : ''}
+                    </div>
+                </div>
+            `;
+
+            // Dependencies Tab
+            document.getElementById('codeFlowDependencies').innerHTML = `
+                <div class="code-flow-section">
+                    <div class="code-flow-header">🔗 Dependencies</div>
+                    <div class="code-flow-content">
+                        <div class="flow-stats">
+                            <div class="stat-box">
+                                <div class="stat-value">${codeFlow.dependencies?.internal?.length || 0}</div>
+                                <div class="stat-label">Internal</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-value">${codeFlow.dependencies?.external?.length || 0}</div>
+                                <div class="stat-label">External</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-value" style="color: ${(codeFlow.dependencies?.circular?.length || 0) > 0 ? '#f85149' : '#2ea043'}">
+                                    ${codeFlow.dependencies?.circular?.length || 0}
+                                </div>
+                                <div class="stat-label">Circular</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-value">
+                                    <span class="complexity-badge complexity-${codeFlow.dependencies?.riskLevel || 'medium'}">${codeFlow.dependencies?.riskLevel || 'medium'}</span>
+                                </div>
+                                <div class="stat-label">Risk Level</div>
+                            </div>
+                        </div>
+                        
+                        ${(codeFlow.dependencies?.internal || []).length > 0 ? `
+                            <div style="margin-top: 16px;">
+                                <h4 style="margin-bottom: 8px; font-size: 14px; color: #f0f6fc;">Internal Dependencies</h4>
+                                ${(codeFlow.dependencies?.internal || []).slice(0, 10).map(dep => `
+                                    <div class="dependency-item">
+                                        <span class="dependency-source">${dep.source}</span>
+                                        <span class="dependency-arrow">→</span>
+                                        <span class="dependency-target">${dep.target}</span>
+                                        <span style="color: #8b949e; margin-left: 8px;">(${dep.type})</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        ` : ''}
+                        
+                        ${(codeFlow.dependencies?.circular || []).length > 0 ? `
+                            <div style="margin-top: 16px;">
+                                <h4 style="margin-bottom: 8px; font-size: 14px; color: #f85149;">⚠️ Circular Dependencies</h4>
+                                ${(codeFlow.dependencies?.circular || []).slice(0, 5).map(circ => `
+                                    <div class="dependency-item circular-dep">
+                                        ${circ.cycle.join(' → ')}
+                                    </div>
+                                `).join('')}
+                            </div>
+                        ` : ''}
+                    </div>
+                </div>
+            `;
+
+            // Data Flow Tab
+            document.getElementById('codeFlowDataFlow').innerHTML = `
+                <div class="code-flow-section">
+                    <div class="code-flow-header">💾 Data Flow</div>
+                    <div class="code-flow-content">
+                        <div class="flow-stats">
+                            <div class="stat-box">
+                                <div class="stat-value">${codeFlow.dataFlow?.dataStreams?.length || 0}</div>
+                                <div class="stat-label">Data Streams</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-value">${codeFlow.dataFlow?.dataStores?.length || 0}</div>
+                                <div class="stat-label">Data Stores</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-value">${codeFlow.dataFlow?.transformations?.length || 0}</div>
+                                <div class="stat-label">Transformations</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-value" style="color: ${(codeFlow.dataFlow?.bottlenecks?.length || 0) > 0 ? '#f85149' : '#2ea043'}">
+                                    ${codeFlow.dataFlow?.bottlenecks?.length || 0}
+                                </div>
+                                <div class="stat-label">Bottlenecks</div>
+                            </div>
+                        </div>
+                        
+                        ${(codeFlow.dataFlow?.dataStores || []).length > 0 ? `
+                            <div style="margin-top: 16px;">
+                                <h4 style="margin-bottom: 8px; font-size: 14px; color: #f0f6fc;">Data Stores</h4>
+                                <div class="code-flow-grid">
+                                    ${(codeFlow.dataFlow?.dataStores || []).slice(0, 8).map(store => `
+                                        <div class="data-flow-item">
+                                            <div class="data-flow-name">${store.name}</div>
+                                            <div class="data-flow-details">
+                                                Type: ${store.type}<br>
+                                                Access: ${store.accessPattern}
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        ` : ''}
+                        
+                        ${(codeFlow.dataFlow?.bottlenecks || []).length > 0 ? `
+                            <div style="margin-top: 16px;">
+                                <h4 style="margin-bottom: 8px; font-size: 14px; color: #f85149;">🚨 Performance Bottlenecks</h4>
+                                ${(codeFlow.dataFlow?.bottlenecks || []).slice(0, 5).map(bottleneck => `
+                                    <div class="bottleneck-item">
+                                        <div class="bottleneck-location">${bottleneck.location}</div>
+                                        <div class="bottleneck-type">${bottleneck.type} - ${bottleneck.severity} severity</div>
+                                        <div style="color: #8b949e; font-size: 11px; margin-top: 4px;">${bottleneck.description}</div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        ` : ''}
+                        
+                        ${(codeFlow.dataFlow?.flowPatterns || []).length > 0 ? `
+                            <div style="margin-top: 16px;">
+                                <h4 style="margin-bottom: 8px; font-size: 14px; color: #f0f6fc;">Flow Patterns</h4>
+                                <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                                    ${(codeFlow.dataFlow?.flowPatterns || []).map(pattern => `
+                                        <span class="entry-point" style="background: #2ea043;">${pattern}</span>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        ` : ''}
+                    </div>
+                </div>
+            `;
+        }
+
+        function displayRiskAssessment() {
+            console.log('displayRiskAssessment called', analysisResults);
+            const riskAssessment = analysisResults.riskAssessment;
+            
+            if (!riskAssessment) {
+                console.log('No risk assessment data available');
+                document.getElementById('riskOverview').innerHTML = `
+                    <div class="risk-section">
+                        <div class="risk-header">Risk Assessment</div>
+                        <div class="risk-content">
+                            <p style="color: #8b949e; font-style: italic;">Risk assessment not available</p>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+            
+            console.log('Risk assessment data:', riskAssessment);
+            
+            // Overview Tab
+            document.getElementById('riskOverview').innerHTML = `
+                <div class="risk-section">
+                    <div class="risk-header">🚨 Risk Assessment Overview</div>
+                    <div class="risk-content">
+                        <div class="flow-stats">
+                            <div class="stat-box">
+                                <div class="stat-value risk-score-${riskAssessment.overallRiskScore >= 80 ? 'high' : riskAssessment.overallRiskScore >= 50 ? 'medium' : 'low'}">
+                                    ${riskAssessment.overallRiskScore}
+                                </div>
+                                <div class="stat-label">Overall Risk Score</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-value">${riskAssessment.riskCategories.high_risk.length}</div>
+                                <div class="stat-label">High Risk Items</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-value">${riskAssessment.vulnerabilities.length}</div>
+                                <div class="stat-label">Security Vulnerabilities</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-value">${riskAssessment.migrationBlockers.length}</div>
+                                <div class="stat-label">Migration Blockers</div>
+                            </div>
+                        </div>
+                        
+                        <div class="risk-section" style="margin-top: 16px;">
+                            <div class="risk-header">🎯 Priority Actions</div>
+                            <div class="risk-content">
+                                ${riskAssessment.priorityActions.length > 0 ? `
+                                    <ul class="priority-actions">
+                                        ${riskAssessment.priorityActions.map(action => `
+                                            <li class="priority-action ${action.startsWith('URGENT') ? 'urgent' : action.startsWith('BLOCKER') ? 'blocker' : 'normal'}">
+                                                ${action}
+                                            </li>
+                                        `).join('')}
+                                    </ul>
+                                ` : '<p style="color: #8b949e; font-style: italic;">No priority actions identified</p>'}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Risk Categories Tab
+            document.getElementById('riskCategories').innerHTML = `
+                <div class="risk-section">
+                    <div class="risk-header">📊 Risk Categories</div>
+                    <div class="risk-content">
+                        ${['high_risk', 'medium_risk', 'low_risk'].map(category => {
+                            const risks = riskAssessment.riskCategories[category] || [];
+                            const displayCategory = category.replace('_', ' ').toUpperCase();
+                            return `
+                                <div class="risk-category">
+                                    <div class="category-header ${category}">
+                                        <span class="category-badge ${category}">${displayCategory}</span>
+                                        <span class="category-count">${risks.length} items</span>
+                                    </div>
+                                    ${risks.length > 0 ? `
+                                        <div class="risk-items">
+                                            ${risks.map(risk => `
+                                                <div class="risk-item">
+                                                    <div class="risk-item-header">
+                                                        <span class="risk-type">${risk.type}</span>
+                                                        <span class="risk-title">${risk.title}</span>
+                                                    </div>
+                                                    <div class="risk-item-content">
+                                                        <p><strong>Location:</strong> ${risk.location}</p>
+                                                        <p><strong>Description:</strong> ${risk.description}</p>
+                                                        <p><strong>Impact:</strong> ${risk.impact}</p>
+                                                        <p><strong>Recommendation:</strong> ${risk.recommendation}</p>
+                                                        <div class="risk-metadata">
+                                                            <span class="effort-badge effort-${risk.effort}">Effort: ${risk.effort}</span>
+                                                            <span class="migration-impact-badge impact-${risk.migrationImpact}">Impact: ${risk.migrationImpact}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            `).join('')}
+                                        </div>
+                                    ` : '<p style="color: #8b949e; font-style: italic; padding: 12px;">No risks in this category</p>'}
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                </div>
+            `;
+
+            // Vulnerabilities Tab
+            document.getElementById('riskVulnerabilities').innerHTML = `
+                <div class="risk-section">
+                    <div class="risk-header">🔒 Security Vulnerabilities</div>
+                    <div class="risk-content">
+                        ${riskAssessment.vulnerabilities.length > 0 ? `
+                            <div class="vulnerabilities-list">
+                                ${riskAssessment.vulnerabilities.map(vuln => `
+                                    <div class="vulnerability-item severity-${vuln.severity}">
+                                        <div class="vulnerability-header">
+                                            <span class="severity-badge severity-${vuln.severity}">${vuln.severity.toUpperCase()}</span>
+                                            <span class="vulnerability-title">${vuln.title}</span>
+                                            ${vuln.cveId ? `<span class="cve-id">CVE: ${vuln.cveId}</span>` : ''}
+                                        </div>
+                                        <div class="vulnerability-content">
+                                            <p><strong>Type:</strong> ${vuln.type}</p>
+                                            <p><strong>Location:</strong> ${vuln.location}</p>
+                                            <p><strong>Description:</strong> ${vuln.description}</p>
+                                            <p><strong>Recommendation:</strong> ${vuln.recommendation}</p>
+                                            ${vuln.fixVersion ? `<p><strong>Fix Available:</strong> Update to ${vuln.fixVersion}</p>` : ''}
+                                            <div class="vulnerability-status">
+                                                <span class="patch-status ${vuln.patchAvailable ? 'available' : 'unavailable'}">
+                                                    ${vuln.patchAvailable ? '✅ Patch Available' : '❌ No Patch Available'}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        ` : '<p style="color: #8b949e; font-style: italic;">No security vulnerabilities identified</p>'}
+                    </div>
+                </div>
+            `;
+
+            // Migration Blockers Tab
+            document.getElementById('riskBlockers').innerHTML = `
+                <div class="risk-section">
+                    <div class="risk-header">🚧 Migration Blockers</div>
+                    <div class="risk-content">
+                        ${riskAssessment.migrationBlockers.length > 0 ? `
+                            <div class="blockers-list">
+                                ${riskAssessment.migrationBlockers.map(blocker => `
+                                    <div class="blocker-item severity-${blocker.severity}">
+                                        <div class="blocker-header">
+                                            <span class="blocker-severity severity-${blocker.severity}">${blocker.severity.toUpperCase()}</span>
+                                            <span class="blocker-title">${blocker.title}</span>
+                                            <span class="blocker-type">${blocker.type}</span>
+                                        </div>
+                                        <div class="blocker-content">
+                                            <p><strong>Location:</strong> ${blocker.location}</p>
+                                            <p><strong>Description:</strong> ${blocker.description}</p>
+                                            <p><strong>Impact:</strong> ${blocker.impact}</p>
+                                            <div class="resolution-info">
+                                                <p><strong>Resolution:</strong></p>
+                                                <p><strong>Effort:</strong> <span class="effort-badge effort-${blocker.resolution.effort}">${blocker.resolution.effort}</span></p>
+                                                <p><strong>Time Estimate:</strong> ${blocker.resolution.timeEstimate}</p>
+                                                <div class="resolution-steps">
+                                                    <p><strong>Steps:</strong></p>
+                                                    <ul>
+                                                        ${blocker.resolution.steps.map(step => `<li>${step}</li>`).join('')}
+                                                    </ul>
+                                                </div>
+                                                ${blocker.resolution.alternatives.length > 0 ? `
+                                                    <div class="alternatives">
+                                                        <p><strong>Alternatives:</strong></p>
+                                                        <ul>
+                                                            ${blocker.resolution.alternatives.map(alt => `<li>${alt}</li>`).join('')}
+                                                        </ul>
+                                                    </div>
+                                                ` : ''}
+                                            </div>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        ` : '<p style="color: #8b949e; font-style: italic;">No migration blockers identified</p>'}
+                    </div>
+                </div>
+            `;
+        }
+
         function displayRecommendations() {
             const recommendationsList = document.getElementById('recommendationsList');
             const arch = analysisResults.architectureAnalysis;
+            const codeFlow = analysisResults.codeFlowAnalysis;
+            
+            // Combine architecture and code flow recommendations
+            const allRecommendations = [
+                ...(arch.recommendations || []),
+                ...(codeFlow?.recommendations || [])
+            ];
             
             recommendationsList.innerHTML = `
                 <ul class="recommendation-list">
-                    ${arch.recommendations.map(rec => `<li>${rec}</li>`).join('')}
+                    ${allRecommendations.map(rec => `<li>${rec.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</li>`).join('')}
                 </ul>
             `;
             
@@ -767,25 +2100,29 @@
                     <div class="result-card">
                         <h3>Strengths</h3>
                         <ul class="recommendation-list">
-                            ${(details.strengths || []).map(strength => `<li>${strength}</li>`).join('')}
+                            ${(details.strengths || []).map(strength => `<li>${strength.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</li>`).join('')}
                         </ul>
                     </div>
                     <div class="result-card">
                         <h3>Weaknesses</h3>
                         <ul class="recommendation-list">
-                            ${(details.weaknesses || []).map(weakness => `<li>${weakness}</li>`).join('')}
+                            ${(details.weaknesses || []).map(weakness => `<li>${weakness.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</li>`).join('')}
                         </ul>
                     </div>
                     <div class="result-card">
                         <h3>Risk Factors</h3>
                         <ul class="recommendation-list">
-                            ${(details.riskFactors || []).map(risk => `<li>${risk}</li>`).join('')}
+                            ${(details.riskFactors || []).map(risk => `<li>${risk.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</li>`).join('')}
                         </ul>
                     </div>
                 </div>
                 <div class="info-group">
                     <h4>Migration Complexity</h4>
                     <p><span class="status-badge status-${arch.migrationComplexity}">${arch.migrationComplexity}</span></p>
+                </div>
+                <div class="info-group">
+                    <h4>Code Flow Complexity</h4>
+                    <p><span class="status-badge status-${codeFlow?.complexity || 'medium'}">${codeFlow?.complexity || 'Medium'}</span></p>
                 </div>
                 <div class="info-group">
                     <h4>Modernization Priority</h4>
@@ -812,6 +2149,9 @@
                 document.getElementById(tab).classList.add('active');
             });
         });
+
+        // Note: Nested tab switching is now handled by setupNestedTabListeners() 
+        // which is called after displayResults() to ensure DOM elements exist
 
         // Download results
         function downloadResults() {

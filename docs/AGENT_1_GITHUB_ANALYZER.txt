@@ -1,0 +1,331 @@
+===============================================================================
+AGENT 1: GITHUB REPOSITORY ANALYZER
+===============================================================================
+
+PURPOSE:
+--------
+The GitHub Repository Analyzer is the first agent in the AI Legacy Migration 
+pipeline. It connects to GitHub, downloads repository metadata and file 
+contents, categorizes files, and generates an initial AI-powered summary of 
+the repository's purpose and technologies.
+
+LOCATION:
+---------
+File: src/agents/github-analyzer/index.ts
+Class: GitHubRepoAnalyzerAgent
+
+INPUTS:
+-------
+- GitHub repository URL (e.g., "https://github.com/facebook/react")
+
+OUTPUTS:
+--------
+- RepositoryAnalysis object containing:
+  * Repository metadata (name, description, language, stars, forks)
+  * Complete file structure with categorization
+  * AI-generated summary (purpose, technologies, project type, complexity)
+  * Key insights about the codebase
+
+DETAILED WORKFLOW:
+==================
+
+STEP 1: FETCH REPOSITORY INFORMATION
+------------------------------------
+Function: fetchRepository()
+Location: line 39
+
+What it does:
+- Parses the GitHub URL to extract owner and repository name
+- Makes GitHub API call to get basic repository metadata
+- Retrieves: name, description, primary language, star count, fork count, 
+  default branch, last updated timestamp
+
+API Calls Made:
+- 1 GitHub API call to /repos/{owner}/{repo}
+
+Example Data Retrieved:
+{
+  "name": "react",
+  "owner": "facebook", 
+  "description": "A declarative, efficient, and flexible JavaScript library",
+  "language": "JavaScript",
+  "stars": 200000,
+  "forks": 45000,
+  "branch": "main"
+}
+
+STEP 2: ANALYZE FILES
+---------------------
+Function: analyzeFiles()
+Location: line 63
+
+What it does:
+- Fetches complete file tree from GitHub repository
+- Applies intelligent filtering to exclude irrelevant files
+- Downloads actual file contents for analysis (limited to 50 files)
+- Enforces size limits to prevent processing huge files
+
+File Filtering Logic:
+- EXCLUDES: node_modules, .git, dist, build, .DS_Store, *.log
+- EXCLUDES: Binary files (.png, .jpg, .exe, .zip, .pdf)
+- INCLUDES: Source code files, configuration files, documentation
+- SIZE LIMIT: Only files smaller than 10KB get content downloaded
+- COUNT LIMIT: Maximum 50 files get content analyzed
+
+API Calls Made:
+- 1 GitHub API call to get repository tree
+- Up to 50 GitHub API calls to download file contents
+- Total: ~51 GitHub API calls
+
+Example Files Retrieved:
+[
+  {
+    "path": "src/index.js",
+    "name": "index.js", 
+    "type": "file",
+    "size": 2048,
+    "extension": "js",
+    "content": "import React from 'react';\nexport default React;"
+  },
+  {
+    "path": "package.json",
+    "name": "package.json",
+    "type": "file", 
+    "content": "{\n  \"name\": \"react\",\n  \"version\": \"18.0.0\"\n}"
+  }
+]
+
+STEP 3: CATEGORIZE STRUCTURE
+-----------------------------
+Function: categorizeStructure()
+Location: line 109
+
+What it does:
+- Groups files into logical categories based on purpose
+- Identifies main entry point files
+- Calculates statistics about file distribution
+- Creates organized file structure for analysis
+
+File Categories:
+- SOURCE: .js, .ts, .py, .java, .cpp, .go, .rs, .php, .rb, .cs
+- CONFIG: package.json, .env, webpack.config.js, tsconfig.json, .gitignore
+- TEST: *.test.js, *.spec.js, files in /test/ or /tests/ directories
+- DOCUMENTATION: *.md, *.txt, *.rst files
+- BUILD: Dockerfile, docker-compose.yml, Makefile, .yml, .yaml
+- DEPENDENCY: package-lock.json, yarn.lock, requirements.txt, pom.xml
+- ASSET: .css, .scss, .less, .html, .svg, images
+- OTHER: Everything else
+
+Main File Identification:
+- Looks for: index.*, main.*, app.*, server.*, package.json, README.*
+- Prioritizes files in root directory
+- Identifies likely entry points for the application
+
+Example Categorized Structure:
+{
+  "totalFiles": 847,
+  "totalDirectories": 125,
+  "categories": {
+    "source": [450 files],
+    "config": [25 files], 
+    "test": [180 files],
+    "documentation": [15 files],
+    "build": [8 files]
+  },
+  "mainFiles": [
+    {"name": "package.json", "path": "package.json"},
+    {"name": "index.js", "path": "src/index.js"}
+  ]
+}
+
+STEP 4: GENERATE SUMMARY
+-------------------------
+Function: generateSummary()
+Location: line 145
+
+What it does:
+- Creates comprehensive prompt with repository and file information
+- Sends prompt to AI language model (Gemini) for analysis
+- Requests structured JSON response with specific fields
+- Parses AI response into standardized summary format
+
+AI MODEL CALL:
+- Model: gemini-2.5-flash (via LangChain)
+- Input: Repository metadata + file structure + sample file contents
+- Output: Structured JSON with purpose, technologies, complexity assessment
+
+Prompt Structure:
+```
+Analyze this GitHub repository:
+
+Repository: facebook/react
+Description: A declarative, efficient, and flexible JavaScript library
+Primary Language: JavaScript
+Stars: 200000
+Forks: 45000
+
+File Structure:
+- Total files: 847
+- Total directories: 125
+- Categories: source: 450 files, config: 25 files, test: 180 files
+
+Main Files:
+- package.json (package.json)
+- index.js (src/index.js)
+
+Sample File Contents:
+File: src/index.js
+import React from 'react';
+export default React;
+...
+
+Based on this information, provide:
+1. The main purpose of this repository
+2. The primary technologies used
+3. The type of project (web app, library, CLI tool, etc.)  
+4. The complexity level (low, medium, high)
+5. Key insights about the codebase structure and organization
+```
+
+Expected AI Response:
+{
+  "purpose": "A JavaScript library for building user interfaces with reusable components",
+  "mainTechnologies": ["JavaScript", "React", "JSX", "Babel"], 
+  "projectType": "library",
+  "complexity": "high",
+  "insights": [
+    "Well-structured modular architecture with clear separation of concerns",
+    "Extensive testing suite covering unit and integration tests",
+    "Comprehensive build system with multiple output formats",
+    "Active development with frequent updates and releases"
+  ]
+}
+
+ERROR HANDLING:
+===============
+
+GitHub API Errors:
+- Network timeouts: Retries with exponential backoff
+- Rate limiting: Waits and retries (5000 requests/hour limit without token)
+- Authentication: Falls back to unauthenticated requests with lower limits
+- Repository not found: Returns clear error message
+
+AI Model Errors:
+- Invalid JSON response: Attempts to repair truncated or malformed JSON
+- Empty response: Provides fallback summary based on file analysis
+- Rate limiting: Implements retry logic with delays
+- Token limit exceeded: Truncates input and retries with smaller prompt
+
+File Processing Errors:
+- Binary file detection: Skips files that appear to be binary
+- Large file handling: Ignores files over 10KB to prevent memory issues
+- Invalid file paths: Logs errors but continues processing other files
+- Encoding issues: Handles different text encodings gracefully
+
+PERFORMANCE CHARACTERISTICS:
+============================
+
+Typical Processing Time:
+- Small repositories (<100 files): 30-60 seconds
+- Medium repositories (100-500 files): 1-3 minutes  
+- Large repositories (500+ files): 2-5 minutes
+
+API Usage:
+- GitHub API calls: ~51 calls per repository
+- AI model calls: 1 call per repository
+- Cost per analysis: ~$0.02-$0.05 (Gemini pricing)
+
+Memory Usage:
+- File content storage: ~5-50MB depending on repository size
+- Processing overhead: ~10-20MB for analysis
+- Peak usage: ~100MB for large repositories
+
+Rate Limits:
+- GitHub (no token): 60 requests/hour
+- GitHub (with token): 5000 requests/hour  
+- Gemini AI: 60 requests/minute, 1M tokens/minute
+
+CONFIGURATION OPTIONS:
+======================
+
+Environment Variables:
+- GITHUB_TOKEN: Personal access token for higher GitHub API limits
+- GEMINI_KEY_AI_HACKATHON: Required API key for Gemini AI model
+
+Adjustable Parameters:
+- Maximum files to analyze: Currently 50 (can be increased)
+- File size limit: Currently 10KB (can be adjusted)
+- Repository file limit: Currently 1000 files (GitHub client setting)
+
+OUTPUT QUALITY:
+===============
+
+What the analysis captures well:
+- Primary programming languages and frameworks
+- Overall project structure and organization
+- Main technologies and dependencies
+- Project type classification (library, application, tool, etc.)
+- Complexity assessment based on file count and structure
+
+What it might miss:
+- Very new or obscure technologies not in training data
+- Complex monorepo structures with multiple projects
+- Custom build systems or unusual project organizations
+- Specific business domain knowledge
+- Code quality or security issues (not in scope)
+
+DEPENDENCIES:
+=============
+
+External Services:
+- GitHub API (api.github.com)
+- Google Gemini AI API (generativelanguage.googleapis.com)
+
+Internal Dependencies:  
+- GitHubClient: Handles GitHub API communication
+- LLMClient: Manages AI model interactions
+- FileUtils: Provides file categorization and filtering utilities
+- Logger: Structured logging for debugging and monitoring
+
+TROUBLESHOOTING:
+================
+
+Common Issues:
+
+1. "Repository not found" error:
+   - Check if repository URL is correct and public
+   - Verify GitHub token has access if repository is private
+
+2. "Rate limit exceeded" error:
+   - Add GITHUB_TOKEN environment variable
+   - Wait for rate limit reset (1 hour for unauthenticated)
+
+3. "AI model timeout" error:
+   - Repository might be too large, try smaller repository
+   - Check GEMINI_KEY_AI_HACKATHON environment variable
+
+4. "Invalid JSON response" error:
+   - Usually auto-corrected by JSON repair logic
+   - Check Gemini API status if persistent
+
+5. Analysis takes too long:
+   - Repository might have many large files
+   - Check file filtering logic is working correctly
+   - Consider reducing file count limit
+
+EXAMPLE USAGE:
+==============
+
+```typescript
+const analyzer = new GitHubRepoAnalyzerAgent();
+const result = await analyzer.analyze('https://github.com/facebook/react');
+
+console.log(result.repository.name); // "react"
+console.log(result.summary.purpose); // "A JavaScript library for..."
+console.log(result.fileStructure.totalFiles); // 847
+console.log(result.insights); // Array of AI-generated insights
+```
+
+This agent provides the foundation for all subsequent analysis by gathering
+comprehensive repository information and generating the initial AI assessment
+that guides the architecture and code flow analysis in later stages.

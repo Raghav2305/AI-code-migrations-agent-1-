@@ -5,11 +5,15 @@ import {
   AnalysisRequest, 
   AnalysisResponse, 
   RepositoryAnalysis, 
-  ArchitectureAnalysis 
+  ArchitectureAnalysis,
+  CodeFlowAnalysis,
+  RiskAssessment 
 } from '../shared/types';
 import { logInfo, logError } from '../shared/utils';
 import GitHubRepoAnalyzerAgent from '../agents/github-analyzer';
 import ArchitectureInferenceAgent from '../agents/architecture-inference';
+import { CodeFlowAgent } from '../agents/code-flow';
+import RiskAssessmentAgent from '../agents/risk-assessment';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -27,6 +31,8 @@ const analysisResults = new Map<string, AnalysisResponse>();
 // Initialize agents
 const githubAnalyzer = new GitHubRepoAnalyzerAgent();
 const architectureInference = new ArchitectureInferenceAgent();
+const codeFlowAgent = new CodeFlowAgent();
+const riskAssessmentAgent = new RiskAssessmentAgent();
 
 // Generate unique analysis ID
 function generateAnalysisId(): string {
@@ -184,16 +190,40 @@ async function performAnalysis(analysisId: string, request: AnalysisRequest) {
     
     const architectureAnalysis: ArchitectureAnalysis = await architectureInference.analyze(repositoryAnalysis);
     
+    result.progress = 70;
+    result.currentStep = 'Architecture inference completed';
+    result.result!.architectureAnalysis = architectureAnalysis;
+    
+    // Step 3: Code Flow Analysis
+    logInfo('Running code flow analysis', { analysisId });
+    result.currentStep = 'Analyzing code flow and dependencies';
+    result.progress = 75;
+    
+    const codeFlowAnalysis: CodeFlowAnalysis = await codeFlowAgent.analyze(repositoryAnalysis, architectureAnalysis);
+    
+    result.progress = 80;
+    result.currentStep = 'Code flow analysis completed';
+    result.result!.codeFlowAnalysis = codeFlowAnalysis;
+    
+    // Step 4: Risk Assessment Analysis
+    logInfo('Running risk assessment analysis', { analysisId });
+    result.currentStep = 'Assessing migration risks and vulnerabilities';
+    result.progress = 90;
+    
+    const riskAssessment: RiskAssessment = await riskAssessmentAgent.analyze(repositoryAnalysis, architectureAnalysis, codeFlowAnalysis);
+    
     result.progress = 100;
     result.currentStep = 'Analysis completed';
-    result.result!.architectureAnalysis = architectureAnalysis;
+    result.result!.riskAssessment = riskAssessment;
     result.status = 'completed';
     result.completedAt = new Date().toISOString();
     
     logInfo('Analysis completed successfully', { 
       analysisId, 
       repository: repositoryAnalysis.repository.name,
-      architecture: architectureAnalysis.architecture.type 
+      architecture: architectureAnalysis.architecture.type,
+      codeFlowComplexity: codeFlowAnalysis.complexity,
+      riskScore: riskAssessment.overallRiskScore
     });
     
   } catch (error) {

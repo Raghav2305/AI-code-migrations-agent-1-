@@ -21,6 +21,8 @@ const FILE_CATEGORY_MAPPINGS: Record<string, FileCategory> = {
   'scala': 'source',
   'dart': 'source',
   'vue': 'source',
+  'jsp': 'source',
+  'ejb': 'source',
   
   // Configuration files
   'json': 'config',
@@ -217,7 +219,7 @@ export function getFileExtension(filename: string): string | undefined {
 export function isTextFile(filename: string): boolean {
   const textExtensions = [
     'js', 'ts', 'jsx', 'tsx', 'py', 'java', 'cpp', 'c', 'cs', 'go', 'rs', 'php', 'rb',
-    'swift', 'kt', 'scala', 'dart', 'vue', 'json', 'yaml', 'yml', 'xml', 'toml', 'ini',
+    'swift', 'kt', 'scala', 'dart', 'vue', 'jsp', 'ejb', 'json', 'yaml', 'yml', 'xml', 'toml', 'ini',
     'conf', 'config', 'env', 'properties', 'md', 'txt', 'rst', 'adoc', 'css', 'scss',
     'sass', 'less', 'html', 'htm', 'dockerfile', 'makefile', 'gradle', 'cmake', 'sql',
     'sh', 'bat', 'ps1', 'r', 'lua', 'perl', 'groovy', 'clj', 'ex', 'elm', 'hs'
