@@ -1,0 +1,9 @@
+1. Clone the repo from the github URL.
+2. Install all the required node modules (dependencies) using npm install.
+3. A .env.example file is already present with the required env variables as a reference. 
+4. Create a github token (classic) for access provisioning and add it in the .env file
+5. Add your Gemini API key to the env file as well. Ignore the rest of the varibales - only these 2 are required. 
+6. AFter this, build the project using - npm run build
+7. Finally, start the server using - npm run dev
+ 
+
